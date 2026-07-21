@@ -14,7 +14,7 @@ pioner_name = None
 distance_neded = 2170
 distance_traveled = 0
 food =100
-helth = 100
+health = 100
 wagon_damage = 0
 alive = True
 day = 0
@@ -134,7 +134,7 @@ print("2. Start fresh")
 if input() == "1":
     distance_traveled = get_saved_value("distance_traveled")
     food = get_saved_value("food")
-    helth = get_saved_value("helth")
+    health = get_saved_value("health")
     wagon_damage = get_saved_value("wagon_damage")
     day = get_saved_value("day")
     wagon_name = get_saved_value("wagon_name")
@@ -150,7 +150,7 @@ if input() == "1":
     print(f"\nDay {day}:")
     print(f"Distance traveled: {distance_traveled} miles")
     print(f"Food remaining: {food} units")
-    print(f"Health: {helth}")
+    print(f"Health: {health}")
     print(f"Wagon damage: {wagon_damage}")
     print(f"wagon name: {wagon_name}")
     print(f"pioner name: {pioner_name}")
@@ -162,7 +162,7 @@ else:
     wagon_name = input("Wagon name: ")
     pioner_name = input("Pioner name: ")
     print(
-        f"Welcome {pioner_name} to the Oregon Trail! Your wagon is named {wagon_name}. You have {food} units of food and {helth} health. Your goal is to travel {distance_neded} miles to reach your destination. Good luck!")
+        f"Welcome {pioner_name} to the Oregon Trail! Your wagon is named {wagon_name}. You have {food} units of food and {health} health. Your goal is to travel {distance_neded} miles to reach your destination. Good luck!")
 
 
 
@@ -171,7 +171,7 @@ while alive and distance_traveled < distance_neded:
     print(f"\nDay {day}:")
     print(f"Distance traveled: {distance_traveled} miles")
     print(f"Food remaining: {food} units")
-    print(f"Health: {helth}")
+    print(f"Health: {health}")
     print(f"Wagon damage: {wagon_damage}")
     if wagon_damage > 0:
         print("you will travel slower because your wagon is damaged")
@@ -187,22 +187,22 @@ while alive and distance_traveled < distance_neded:
                 wagon_damage += random.randint(10, 20)
             else:
                 print("You don't have enough food to lose. The bandits hit you instead")
-                helth -= random.randint(1, 20)
+                health -= random.randint(1, 20)
                 wagon_damage += random.randint(1, 20)
 
         elif encounter == "storm":
             playsound("media/sound/storm.mp3")
             print("A storm has hit! You lost some food and your health decreased.")
             food -= random.randint(5, 15)
-            helth -= random.randint(5, 15)
+            health -= random.randint(5, 15)
             wagon_damage += random.randint(5, 15)
 
         elif encounter == "sickness":
             playsound("media/sound/sic.mp3")
             print("You have fallen ill! Your health has decreased.")
-            helth -= random.randint(10, 20)
+            health -= random.randint(10, 20)
 
-        print(f"After the encounter, you have {food} units of food and {helth} health.")
+        print(f"After the encounter, you have {food} units of food and {health} health.")
         input("Press Enter to continue...")
         time.sleep(1)  # Simulate the passage of time
         print(".")
@@ -221,37 +221,37 @@ while alive and distance_traveled < distance_neded:
                 travel_distance = round(random.randint(12, 15) - (wagon_damage / 10))  # miles traveled per day
                 distance_traveled += travel_distance
                 food -= random.randint(5, 15)  # food consumed per day of travel
-                helth -= random.randint(1, 10)  # health decreases due to travel
+                health -= random.randint(1, 10)  # health decreases due to travel
                 wagon_damage += random.randint(1, 5)  # wagon damage increases due to travel
                 print(f"You traveled {travel_distance} miles.")
 
         elif action == "repair":
             wagon_damage -= random.randint(5, 15)
             food -= random.randint(5, 15)
-            helth -= random.randint(1, 10)
+            health -= random.randint(1, 10)
             print(f"You repared the wagon but lost some food and your health decreases.")
 
         elif action == "rest":
             food -= random.randint(5, 10)  # food consumed while resting
-            helth += random.randint(5, 15)  # health improves while resting
+            health += random.randint(5, 15)  # health improves while resting
             print("You rested for the day.")
 
         elif action == "hunt":
             food_gained = random.randint(15, 25)  # food gained from hunting
             food += food_gained
-            helth -= random.randint(1, 10)  # health decreases due to hunting effort
+            health -= random.randint(1, 10)  # health decreases due to hunting effort
             print(f"You hunted and gained {food_gained} units of food.")
 
         elif action == "status":
             print(f"Distance traveled: {distance_traveled} miles")
             print(f"Food remaining: {food} units")
-            print(f"Health: {helth}")
+            print(f"Health: {health}")
 
         elif action == "exit":
             print("Exiting the game. Goodbye!")
             print(save_variable("distance_traveled", distance_traveled))
             print(save_variable("food", food))
-            print(save_variable("helth", helth))
+            print(save_variable("health", health))
             print(save_variable("wagon_damage", wagon_damage))
             print(save_variable("day", day))
             print(save_variable("wagon_name", wagon_name))
@@ -265,7 +265,7 @@ while alive and distance_traveled < distance_neded:
             alive = False
             print("You have run out of food and cannot continue. You have died.")
 
-        if helth <= 0:
+        if health <= 0:
             alive = False
             print("Your health has deteriorated too much. You have died.")
 
@@ -275,8 +275,8 @@ while alive and distance_traveled < distance_neded:
         if wagon_damage <= 0:
             wagon_damage = 0
 
-        if helth >= 100:
-            helth = 100
+        if health >= 100:
+            health = 100
 
         if food >= 100:
             food = 100

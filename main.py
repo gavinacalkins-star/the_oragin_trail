@@ -125,7 +125,41 @@ print('  #   #   # #   # ##### ##### ')
 time.sleep(0.05)
 print('==================================================================')
 print('                  A game of grit, grass, and dysentery.           ')
+input("                    Press Enter to start your journey            ")
+print('==================================================================')
 
+print("do you want to resume save game or start fresh")
+print("1. Resume save game")
+print("2. Start fresh")
+if input() == "1":
+    distance_traveled = get_saved_value("distance_traveled")
+    food = get_saved_value("food")
+    helth = get_saved_value("helth")
+    wagon_damage = get_saved_value("wagon_damage")
+    day = get_saved_value("day")
+    wagon_name = get_saved_value("wagon_name")
+    pioner_name = get_saved_value("pioner_name")
+    alive = get_saved_value("alive")
+    print("Resuming saved game...")
+    time.sleep(1)  # Simulate the passage of time
+    print(".")
+    time.sleep(1)  # Simulate the passage of time
+    print(".")
+    print("save gave restored")
+    print("--------------------------------------------------")
+    print(f"\nDay {day}:")
+    print(f"Distance traveled: {distance_traveled} miles")
+    print(f"Food remaining: {food} units")
+    print(f"Health: {helth}")
+    print(f"Wagon damage: {wagon_damage}")
+    print(f"wagon name: {wagon_name}")
+    print(f"pioner name: {pioner_name}")
+    print(f"alive: {alive}")
+    print("--------------------------------------------------")
+
+
+else:
+    save_game = False
 
 wagon_name = input("Wagon name: ")
 pioner_name = input("Pioner name: ")

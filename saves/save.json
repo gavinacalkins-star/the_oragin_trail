@@ -1,9 +1,9 @@
 {
-    "distance_traveled": 12,
-    "food": 100,
-    "helth": 92,
-    "wagon_damage": 3,
-    "day": 2,
+    "distance_traveled": 24,
+    "food": 68,
+    "helth": 66,
+    "wagon_damage": 0,
+    "day": 6,
     "wagon_name": "sdrgth",
     "pioner_name": "sdfgsh",
     "alive": true

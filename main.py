@@ -1,7 +1,7 @@
 #todo:
-#add random travel distances
-#make distances more realistic
-#make wagon breakdowns
+# add random travel distances
+# make distances more realistic
+# make wagon breakdowns
 
 
 

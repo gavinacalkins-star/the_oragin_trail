@@ -4,6 +4,7 @@
 
 import time
 import random
+from playsound import playsound
 
 
 wagon_name = None
@@ -17,7 +18,7 @@ alive = True
 day = 0
 
 
-
+playsound("media/sound/game start.mp3")
 print('                        _.--.')
 time.sleep(0.05)
 print("                    _.-'_:-'||")
@@ -156,7 +157,7 @@ while alive and distance_traveled < distance_neded:
                 print(f"You traveled {travel_distance} miles.")
 
         elif action == "repair":
-            wagon_damage += random.randint(5, 15)
+            wagon_damage -= random.randint(5, 15)
             food -= random.randint(5, 15)
             helth -= random.randint(1, 10)
             print(f"You repared the wagon but lost some food and your health decreases.")

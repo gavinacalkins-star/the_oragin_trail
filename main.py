@@ -63,7 +63,7 @@ while alive and distance_traveled < distance_neded:
         print(".")
 
     else:
-        action = input("What would you like to do? (travel/rest/hunt/status/repare/quit): ").lower()
+        action = input("What would you like to do? (travel/rest/hunt/status/repair/quit): ").lower()
 
         if action == "travel":
             if wagon_damage > 50:
@@ -78,7 +78,7 @@ while alive and distance_traveled < distance_neded:
                 wagon_damage += random.randint(1, 5)  # wagon damage increases due to travel
                 print(f"You traveled {travel_distance} miles.")
 
-        elif action == "repare":
+        elif action == "repair":
             wagon_damage += random.randint(5, 15)
             food -= random.randint(5, 15)
             helth -= random.randint(1, 10)

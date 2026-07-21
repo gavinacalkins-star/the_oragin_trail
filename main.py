@@ -22,14 +22,17 @@ save_file = "saves/save.json"
 
 
 def save_variable(var_name, value):
-    """Completely overwrites the file with ONLY this single variable."""
-    # Create a fresh dictionary containing only this new variable
-    new_data = {var_name: value}
-
-    # Writing with "w" clears the file before adding the new JSON data
+    """Updates a single variable in the save file, preserving the rest."""
+    data = {}
+    if os.path.exists(save_file):
+        with open(save_file, "r") as file:
+            try:
+                data = json.load(file)
+            except json.JSONDecodeError:
+                data = {}
+    data[var_name] = value
     with open(save_file, "w") as file:
-        json.dump(new_data, file, indent=4)
-    #print(f"Overwrote file! Saved single variable: '{var_name}' = {value}")
+        json.dump(data, file, indent=4)
 
 
 def get_saved_value(var_name):
@@ -209,16 +212,15 @@ while alive and distance_traveled < distance_neded:
 
         elif action == "exit":
             print("Exiting the game. Goodbye!")
-            save_variable("distance_traveled", distance_traveled)
-            save_variable("food", food)
-            save_variable("helth", helth)
-            save_variable("wagon_damage", wagon_damage)
-            save_variable("day", day)
-            save_variable("wagon_name", wagon_name)
-            save_variable("pioner_name", pioner_name)
-            save_variable("alive", alive)
+            print(save_variable("distance_traveled", distance_traveled))
+            print(save_variable("food", food))
+            print(save_variable("helth", helth))
+            print(save_variable("wagon_damage", wagon_damage))
+            print(save_variable("day", day))
+            print(save_variable("wagon_name", wagon_name))
+            print(save_variable("pioner_name", pioner_name))
+            print(save_variable("alive", alive))
             raise SystemExit
-
         else:
             print("Invalid action. Please choose again.")
 

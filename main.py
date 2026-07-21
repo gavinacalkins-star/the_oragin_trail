@@ -20,6 +20,7 @@ alive = True
 day = 0
 save_file = "saves/save.json"
 saves_list = [f for f in os.listdir("saves") if os.path.isfile(os.path.join("saves", f))]
+goto_next_day = True
 
 
 def save_variable(var_name, value):
@@ -230,6 +231,7 @@ while alive and distance_traveled < distance_needed:
         if action == "travel":
             if wagon_damage > 50:
                 print("Your wagon is too damaged to travel. You need to repair it first.")
+                goto_next_day = False
 
             else:
                 playsound("media/sound/traveling.mp3")
@@ -239,28 +241,33 @@ while alive and distance_traveled < distance_needed:
                 health -= random.randint(1, 10)  # health decreases due to travel
                 wagon_damage += random.randint(1, 5)  # wagon damage increases due to travel
                 print(f"You traveled {travel_distance} miles.")
+                goto_next_day = True
 
         elif action == "repair":
             wagon_damage -= random.randint(5, 15)
             food -= random.randint(5, 15)
             health -= random.randint(1, 10)
             print(f"You repaired the wagon but lost some food and your health decreases.")
+            goto_next_day = True
 
         elif action == "rest":
             food -= random.randint(5, 10)  # food consumed while resting
             health += random.randint(5, 15)  # health improves while resting
             print("You rested for the day.")
+            goto_next_day = True
 
         elif action == "hunt":
             food_gained = random.randint(15, 25)  # food gained from hunting
             food += food_gained
             health -= random.randint(1, 10)  # health decreases due to hunting effort
             print(f"You hunted and gained {food_gained} units of food.")
+            goto_next_day = False
 
         elif action == "status":
             print(f"Distance traveled: {distance_traveled} miles")
             print(f"Food remaining: {food} units")
             print(f"Health: {health}")
+            goto_next_day = False
 
         elif action == "exit":
             print("Exiting the game. Goodbye!")
@@ -293,6 +300,7 @@ while alive and distance_traveled < distance_needed:
             raise SystemExit
         else:
             print("Invalid action. Please choose again.")
+            goto_next_day = False
 
         if food <= 0:
             alive = False
@@ -313,16 +321,21 @@ while alive and distance_traveled < distance_needed:
 
         if food >= 100:
             food = 100
+    if goto_next_day:
 
-    day += 1
-    time.sleep(1)  # Simulate the passage of time
-    print(".")
-    time.sleep(1)  # Simulate the passage of time
-    print(".")
-    time.sleep(1)  # Simulate the passage of time
-    print(".")
-    time.sleep(1)  # Simulate the passage of time
-    print(".")
-    time.sleep(1)  # Simulate the passage of time
+        day += 1
+        time.sleep(1)  # Simulate the passage of time
+        print(".")
+        time.sleep(1)  # Simulate the passage of time
+        print(".")
+        time.sleep(1)  # Simulate the passage of time
+        print(".")
+        time.sleep(1)  # Simulate the passage of time
+        print(".")
+        time.sleep(1)  # Simulate the passage of time
+
+
+print("auto exit in 10 seconds...")
+time.sleep(10)
 
 

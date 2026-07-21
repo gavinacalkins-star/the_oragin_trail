@@ -1,5 +1,5 @@
 #todo:
-# make distances more realistic
+# make random encounters
 # make wagon breakdowns
 
 

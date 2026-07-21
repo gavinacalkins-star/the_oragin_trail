@@ -1,9 +1,5 @@
 #todo:
-# make random encounters
 # make wagon breakdowns
-
-
-
 
 
 import time
@@ -30,45 +26,72 @@ while alive and distance_traveled < distance_neded:
     print(f"Food remaining: {food} units")
     print(f"Health: {helth}")
 
-    action = input("What would you like to do? (travel/rest/hunt/status/quit): ").lower()
+    if random.randint(0, 10) == 0:
+        encounter = random.choice(["bandits", "storm", "sickness"])
 
-    if action == "travel":
-        travel_distance = random.randint(12, 15)  # miles traveled per day
-        distance_traveled += travel_distance
-        food -= random.randint(5, 15)  # food consumed per day of travel
-        helth -= random.randint(1, 10)  # health decreases due to travel
-        print(f"You traveled {travel_distance} miles.")
+        if encounter == "bandits":
+            print("You encountered bandits! They stole some of your food.")
+            if food > 21:
+                food -= random.randint(10, 20)
+            else:
+                print("You don't have enough food to lose. The bandits hit you instead")
+                helth -= random.randint(1, 20)
 
-    elif action == "rest":
-        food -= random.randint(5, 10)  # food consumed while resting
-        helth += random.randint(5, 15)  # health improves while resting
-        print("You rested for the day.")
+        elif encounter == "storm":
+            print("A storm has hit! You lost some food and your health decreased.")
+            food -= random.randint(5, 15)
+            helth -= random.randint(5, 15)
 
-    elif action == "hunt":
-        food_gained = random.randint(15, 25)  # food gained from hunting
-        food += food_gained
-        helth -= random.randint(1, 10)  # health decreases due to hunting effort
-        print(f"You hunted and gained {food_gained} units of food.")
+        elif encounter == "sickness":
+            print("You have fallen ill! Your health has decreased.")
+            helth -= random.randint(10, 20)
 
-    elif action == "status":
-        print(f"Distance traveled: {distance_traveled} miles")
-        print(f"Food remaining: {food} units")
-        print(f"Health: {helth}")
-
-    elif action == "quit":
-        alive = False
-        print("You have decided to quit the journey.")
+        print(f"After the encounter, you have {food} units of food and {helth} health.")
+        time.sleep(1)  # Simulate the passage of time
+        print(".")
+        time.sleep(1)  # Simulate the passage of time
+        print(".")
 
     else:
-        print("Invalid action. Please choose again.")
+        action = input("What would you like to do? (travel/rest/hunt/status/quit): ").lower()
 
-    if food <= 0:
-        alive = False
-        print("You have run out of food and cannot continue. You have died.")
+        if action == "travel":
+            travel_distance = random.randint(12, 15)  # miles traveled per day
+            distance_traveled += travel_distance
+            food -= random.randint(5, 15)  # food consumed per day of travel
+            helth -= random.randint(1, 10)  # health decreases due to travel
+            print(f"You traveled {travel_distance} miles.")
 
-    if helth <= 0:
-        alive = False
-        print("Your health has deteriorated too much. You have died.")
+        elif action == "rest":
+            food -= random.randint(5, 10)  # food consumed while resting
+            helth += random.randint(5, 15)  # health improves while resting
+            print("You rested for the day.")
+
+        elif action == "hunt":
+            food_gained = random.randint(15, 25)  # food gained from hunting
+            food += food_gained
+            helth -= random.randint(1, 10)  # health decreases due to hunting effort
+            print(f"You hunted and gained {food_gained} units of food.")
+
+        elif action == "status":
+            print(f"Distance traveled: {distance_traveled} miles")
+            print(f"Food remaining: {food} units")
+            print(f"Health: {helth}")
+
+        elif action == "quit":
+            alive = False
+            print("You have decided to quit the journey.")
+
+        else:
+            print("Invalid action. Please choose again.")
+
+        if food <= 0:
+            alive = False
+            print("You have run out of food and cannot continue. You have died.")
+
+        if helth <= 0:
+            alive = False
+            print("Your health has deteriorated too much. You have died.")
 
     day += 1
     time.sleep(1)  # Simulate the passage of time

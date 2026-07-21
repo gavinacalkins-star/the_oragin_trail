@@ -5,6 +5,8 @@
 import time
 import random
 from playsound import playsound
+import json
+import os
 
 
 wagon_name = None
@@ -16,6 +18,33 @@ helth = 100
 wagon_damage = 0
 alive = True
 day = 0
+save_file = "saves/save.json"
+
+
+def save_variable(var_name, value):
+    """Completely overwrites the file with ONLY this single variable."""
+    # Create a fresh dictionary containing only this new variable
+    new_data = {var_name: value}
+
+    # Writing with "w" clears the file before adding the new JSON data
+    with open(save_file, "w") as file:
+        json.dump(new_data, file, indent=4)
+    #print(f"Overwrote file! Saved single variable: '{var_name}' = {value}")
+
+
+def get_saved_value(var_name):
+    """Retrieves the value of the variable if it matches what is in the file."""
+    if not os.path.exists(save_file):
+        return None
+
+    with open(save_file, "r") as file:
+        try:
+            data = json.load(file)
+        except json.JSONDecodeError:
+            return None
+
+    # Return the value if it matches the requested name
+    return data.get(var_name, None)
 
 
 playsound("media/sound/game start.mp3")
@@ -141,7 +170,7 @@ while alive and distance_traveled < distance_neded:
         print(".")
 
     else:
-        action = input("What would you like to do? (travel/rest/hunt/status/repair/quit): ").lower()
+        action = input("What would you like to do? (travel/rest/hunt/status/repair/exit): ").lower()
 
         if action == "travel":
             if wagon_damage > 50:
@@ -178,9 +207,17 @@ while alive and distance_traveled < distance_neded:
             print(f"Food remaining: {food} units")
             print(f"Health: {helth}")
 
-        elif action == "quit":
-            alive = False
-            print("You have decided to quit the journey.")
+        elif action == "exit":
+            print("Exiting the game. Goodbye!")
+            save_variable("distance_traveled", distance_traveled)
+            save_variable("food", food)
+            save_variable("helth", helth)
+            save_variable("wagon_damage", wagon_damage)
+            save_variable("day", day)
+            save_variable("wagon_name", wagon_name)
+            save_variable("pioner_name", pioner_name)
+            save_variable("alive", alive)
+            raise SystemExit
 
         else:
             print("Invalid action. Please choose again.")

@@ -191,12 +191,14 @@ while alive and distance_traveled < distance_neded:
                 wagon_damage += random.randint(1, 20)
 
         elif encounter == "storm":
+            playsound("media/sound/storm.mp3")
             print("A storm has hit! You lost some food and your health decreased.")
             food -= random.randint(5, 15)
             helth -= random.randint(5, 15)
             wagon_damage += random.randint(5, 15)
 
         elif encounter == "sickness":
+            playsound("media/sound/sic.mp3")
             print("You have fallen ill! Your health has decreased.")
             helth -= random.randint(10, 20)
 
@@ -215,7 +217,7 @@ while alive and distance_traveled < distance_neded:
                 print("Your wagon is too damaged to travel. You need to repair it first.")
 
             else:
-
+                playsound("media/sound/traveling.mp3")
                 travel_distance = round(random.randint(12, 15) - (wagon_damage / 10))  # miles traveled per day
                 distance_traveled += travel_distance
                 food -= random.randint(5, 15)  # food consumed per day of travel

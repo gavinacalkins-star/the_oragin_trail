@@ -193,6 +193,18 @@ while alive and distance_traveled < distance_neded:
             alive = False
             print("Your health has deteriorated too much. You have died.")
 
+        #
+        # add capps for varubols
+        #
+        if wagon_damage <= 0:
+            wagon_damage = 0
+
+        if helth >= 100:
+            helth = 100
+
+        if food >= 100:
+            food = 100
+
     day += 1
     time.sleep(1)  # Simulate the passage of time
     print(".")

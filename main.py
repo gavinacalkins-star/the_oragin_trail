@@ -159,11 +159,12 @@ if input() == "1":
 
 
 else:
-    save_game = False
+    wagon_name = input("Wagon name: ")
+    pioner_name = input("Pioner name: ")
+    print(
+        f"Welcome {pioner_name} to the Oregon Trail! Your wagon is named {wagon_name}. You have {food} units of food and {helth} health. Your goal is to travel {distance_neded} miles to reach your destination. Good luck!")
 
-wagon_name = input("Wagon name: ")
-pioner_name = input("Pioner name: ")
-print(f"Welcome {pioner_name} to the Oregon Trail! Your wagon is named {wagon_name}. You have {food} units of food and {helth} health. Your goal is to travel {distance_neded} miles to reach your destination. Good luck!")
+
 
 while alive and distance_traveled < distance_neded:
     print("--------------------------------------------------")

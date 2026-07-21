@@ -47,6 +47,7 @@ while alive and distance_traveled < distance_neded:
             helth -= random.randint(10, 20)
 
         print(f"After the encounter, you have {food} units of food and {helth} health.")
+        input("Press Enter to continue...")
         time.sleep(1)  # Simulate the passage of time
         print(".")
         time.sleep(1)  # Simulate the passage of time

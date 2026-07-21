@@ -1,10 +1,19 @@
+#todo:
+#add random travel distances
+#make distances more realistic
+#make wagon breakdowns
+
+
+
+
+
 import time
 import random
 
 
 wagon_name = None
 pioner_name = None
-distance_neded = 10000
+distance_neded = 2170
 distance_traveled = 0
 food =100
 helth = 100
@@ -25,7 +34,7 @@ while alive and distance_traveled < distance_neded:
     action = input("What would you like to do? (travel/rest/hunt/status/quit): ").lower()
 
     if action == "travel":
-        travel_distance = 100  # miles traveled per day
+        travel_distance = random.randint(12, 15)  # miles traveled per day
         distance_traveled += travel_distance
         food -= random.randint(5, 15)  # food consumed per day of travel
         helth -= random.randint(1, 10)  # health decreases due to travel
@@ -37,7 +46,7 @@ while alive and distance_traveled < distance_neded:
         print("You rested for the day.")
 
     elif action == "hunt":
-        food_gained = 20  # food gained from hunting
+        food_gained = random.randint(15, 25)  # food gained from hunting
         food += food_gained
         helth -= random.randint(1, 10)  # health decreases due to hunting effort
         print(f"You hunted and gained {food_gained} units of food.")

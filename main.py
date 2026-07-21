@@ -1,4 +1,4 @@
-#todo:
+
 
 
 
@@ -11,7 +11,7 @@ import os
 
 wagon_name = None
 pioner_name = None
-distance_neded = 2170
+distance_needed = 2170
 distance_traveled = 0
 food =100
 health = 100
@@ -19,6 +19,7 @@ wagon_damage = 0
 alive = True
 day = 0
 save_file = "saves/save.json"
+saves_list = [f for f in os.listdir("saves") if os.path.isfile(os.path.join("saves", f))]
 
 
 def save_variable(var_name, value):
@@ -129,9 +130,16 @@ input("                    Press Enter to start your journey            ")
 print('==================================================================')
 
 print("do you want to resume save game or start fresh")
+print("--------------------------------------------------")
+print("Available save files:")
+print(saves_list)
+print("only enter the file name, not the extension")
+print("--------------------------------------------------")
 print("1. Resume save game")
 print("2. Start fresh")
+
 if input() == "1":
+    os.rename(f"saves/{input('Enter the name of the save file you want to load: ')}.json", "saves/save.json")
     distance_traveled = get_saved_value("distance_traveled")
     food = get_saved_value("food")
     health = get_saved_value("health")
@@ -162,11 +170,11 @@ else:
     wagon_name = input("Wagon name: ")
     pioner_name = input("Pioner name: ")
     print(
-        f"Welcome {pioner_name} to the Oregon Trail! Your wagon is named {wagon_name}. You have {food} units of food and {health} health. Your goal is to travel {distance_neded} miles to reach your destination. Good luck!")
+        f"Welcome {pioner_name} to the Oregon Trail! Your wagon is named {wagon_name}. You have {food} units of food and {health} health. Your goal is to travel {distance_needed} miles to reach your destination. Good luck!")
 
 
 
-while alive and distance_traveled < distance_neded:
+while alive and distance_traveled < distance_needed:
     print("--------------------------------------------------")
     print(f"\nDay {day}:")
     print(f"Distance traveled: {distance_traveled} miles")
@@ -229,7 +237,7 @@ while alive and distance_traveled < distance_neded:
             wagon_damage -= random.randint(5, 15)
             food -= random.randint(5, 15)
             health -= random.randint(1, 10)
-            print(f"You repared the wagon but lost some food and your health decreases.")
+            print(f"You repaired the wagon but lost some food and your health decreases.")
 
         elif action == "rest":
             food -= random.randint(5, 10)  # food consumed while resting
@@ -257,6 +265,7 @@ while alive and distance_traveled < distance_neded:
             print(save_variable("wagon_name", wagon_name))
             print(save_variable("pioner_name", pioner_name))
             print(save_variable("alive", alive))
+            os.rename("saves/save.json", f"saves/{input('Enter the name for your savegame: ')}.json")
             raise SystemExit
         else:
             print("Invalid action. Please choose again.")
@@ -270,7 +279,7 @@ while alive and distance_traveled < distance_neded:
             print("Your health has deteriorated too much. You have died.")
 
         #
-        # add capps for varubols
+        # add cap's for variables
         #
         if wagon_damage <= 0:
             wagon_damage = 0

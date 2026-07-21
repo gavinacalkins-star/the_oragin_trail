@@ -12,6 +12,7 @@ distance_neded = 2170
 distance_traveled = 0
 food =100
 helth = 100
+wagon_damage = 0
 alive = True
 day = 0
 
@@ -21,26 +22,34 @@ pioner_name = input("Pioner name: ")
 print(f"Welcome {pioner_name} to the Oregon Trail! Your wagon is named {wagon_name}. You have {food} units of food and {helth} health. Your goal is to travel {distance_neded} miles to reach your destination. Good luck!")
 
 while alive and distance_traveled < distance_neded:
+    print("--------------------------------------------------")
     print(f"\nDay {day}:")
     print(f"Distance traveled: {distance_traveled} miles")
     print(f"Food remaining: {food} units")
     print(f"Health: {helth}")
+    print(f"Wagon damage: {wagon_damage}")
+    if wagon_damage > 0:
+        print("you will travel slower because your wagon is damaged")
+    print("--------------------------------------------------")
 
     if random.randint(0, 10) == 0:
         encounter = random.choice(["bandits", "storm", "sickness"])
 
         if encounter == "bandits":
-            print("You encountered bandits! They stole some of your food.")
+            print("You encountered bandits! They stole some of your food and damaged the wagon.")
             if food > 21:
                 food -= random.randint(10, 20)
+                wagon_damage += random.randint(10, 20)
             else:
                 print("You don't have enough food to lose. The bandits hit you instead")
                 helth -= random.randint(1, 20)
+                wagon_damage += random.randint(1, 20)
 
         elif encounter == "storm":
             print("A storm has hit! You lost some food and your health decreased.")
             food -= random.randint(5, 15)
             helth -= random.randint(5, 15)
+            wagon_damage += random.randint(5, 15)
 
         elif encounter == "sickness":
             print("You have fallen ill! Your health has decreased.")
@@ -54,14 +63,26 @@ while alive and distance_traveled < distance_neded:
         print(".")
 
     else:
-        action = input("What would you like to do? (travel/rest/hunt/status/quit): ").lower()
+        action = input("What would you like to do? (travel/rest/hunt/status/repare/quit): ").lower()
 
         if action == "travel":
-            travel_distance = random.randint(12, 15)  # miles traveled per day
-            distance_traveled += travel_distance
-            food -= random.randint(5, 15)  # food consumed per day of travel
-            helth -= random.randint(1, 10)  # health decreases due to travel
-            print(f"You traveled {travel_distance} miles.")
+            if wagon_damage > 50:
+                print("Your wagon is too damaged to travel. You need to repair it first.")
+
+            else:
+
+                travel_distance = round(random.randint(12, 15) - (wagon_damage / 10))  # miles traveled per day
+                distance_traveled += travel_distance
+                food -= random.randint(5, 15)  # food consumed per day of travel
+                helth -= random.randint(1, 10)  # health decreases due to travel
+                wagon_damage += random.randint(1, 5)  # wagon damage increases due to travel
+                print(f"You traveled {travel_distance} miles.")
+
+        elif action == "repare":
+            wagon_damage += random.randint(5, 15)
+            food -= random.randint(5, 15)
+            helth -= random.randint(1, 10)
+            print(f"You repared the wagon but lost some food and your health decreases.")
 
         elif action == "rest":
             food -= random.randint(5, 10)  # food consumed while resting

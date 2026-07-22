@@ -1,6 +1,10 @@
 #todo
-#   add famly members
-
+# - shop/trading post: buy food/spare parts/medicine with a money stat
+# - river crossings: ford, caulk & float, or pay a ferry; risk losing supplies
+# - weather/seasons: derive month from `day`, slow travel and drain health in winter
+# - difficulty settings: adjust starting food/health and encounter frequency
+# - random named landmarks: flavor text/ASCII art at distance_traveled milestones
+# - better hunting minigame: pick weapon/ammo, add a skill-check instead of flat food_gained
 
 
 

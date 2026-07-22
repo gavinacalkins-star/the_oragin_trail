@@ -3,7 +3,6 @@
 # =====================================================================
 #
 # TODO / ideas for future features:
-# - shop/trading post: buy food/spare parts/medicine with a money stat
 # - river crossings: ford, caulk & float, or pay a ferry; risk losing supplies
 # - weather/seasons: derive month from `day`, slow travel and drain health in winter
 # - difficulty settings: adjust starting food/health and encounter frequency
@@ -16,6 +15,7 @@ import random
 from playsound import playsound
 import json
 import os
+import msvcrt
 
 
 # ---------------------------------------------------------------------
@@ -105,6 +105,36 @@ def info():
         print("you will travel slower because your wagon is damaged")
         time.sleep(0.05)
     print("--------------------------------------------------")
+
+
+def hunt_minigame(speed=0.05, tolerance=0):
+    """
+    speed: seconds between each number update (lower = faster/harder)
+    tolerance: how close to 0 counts as a hit (0 = must be exact)
+    """
+    value = -15
+    direction = 1  # 1 = counting up, -1 = counting down
+
+    print("Press ENTER when the number hits 0!")
+    time.sleep(1)  # short pause so the player can get ready
+
+    while True:
+        # show the current number, overwriting the same line
+        print(f"\r{value:>4}", end="", flush=True)
+
+        # check if a key was pressed WITHOUT blocking the loop
+        if msvcrt.kbhit():
+            key = msvcrt.getch()
+            if key == b"\r":  # Enter key
+                print()  # move to a new line after the game ends
+                return abs(value) <= tolerance
+
+        time.sleep(speed)
+
+        # move the number and flip direction at the ends
+        value += direction
+        if value >= 15 or value <= -15:
+            direction *= -1
 
 
 # ---------------------------------------------------------------------
@@ -391,6 +421,7 @@ while alive and distance_traveled < distance_needed:
             print("Your wagon is too damaged to travel. You need to repair it first.")
             goto_next_day = False
         else:
+
             playsound("media/sound/traveling.mp3")
             travel_distance = round(random.randint(12, 15) - (wagon_damage / 10))  # miles traveled per day
             distance_traveled += travel_distance
@@ -418,12 +449,18 @@ while alive and distance_traveled < distance_needed:
         goto_next_day = True
 
     elif action == "hunt":
-        food_gained = random.randint(15, 25)   # food gained from hunting
-        food += food_gained
-        health -= random.randint(1, 10)        # health decreases due to hunting effort
-        print(f"You hunted and gained {food_gained} units of food.")
-        goto_next_day = False
-
+        if hunt_minigame(0.3 , 0):
+            print("You hit the animal!")
+            food_gained = random.randint(15, 25)   # food gained from hunting
+            food += food_gained
+            health -= random.randint(1, 10)        # health decreases due to hunting effort
+            print(f"You hunted and gained {food_gained} units of food.")
+            goto_next_day = False
+        else:
+            print("You missed the animal.")
+            food -= random.randint(5, 10)          # food consumed while hunting
+            health -= random.randint(1, 10)        # health decreases due to hunting effort
+            goto_next_day = False
     elif action == "status":
         info()
         goto_next_day = False

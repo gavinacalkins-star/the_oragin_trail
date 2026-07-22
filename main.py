@@ -334,7 +334,7 @@ print("2. Start fresh")
 if input() == "1":
     # Rename the chosen save file to the "active" save file, then load
     # each variable back out of it into the game state.
-    os.rename(f"saves/{input('Enter the name of the save file you want to load: ')}.json", "saves/save.json")
+    os.replace(f"saves/{input('Enter the name of the save file you want to load: ')}.json", "saves/save.json")
 
     load_all()
 
@@ -601,7 +601,7 @@ while alive and distance_traveled < distance_needed:
 
         save_all()
 
-        os.rename("saves/save.json", f"saves/{input('Enter the name for your savegame: ')}.json")
+        os.replace("saves/save.json", f"saves/{input('Enter the name for your savegame: ')}.json")
         print("saved save")
         raise SystemExit
 

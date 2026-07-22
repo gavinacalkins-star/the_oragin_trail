@@ -234,7 +234,7 @@ def load_all():
 # Plays a startup sound and prints the wagon ASCII art + title banner.
 # The `time.sleep(0.05)` calls between prints give the intro a slow,
 # line-by-line "typing" reveal effect.
-
+print("made by Gavin c")
 playsound("media/sound/game start.mp3")
 
 print('                        _.--.')

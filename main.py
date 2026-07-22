@@ -130,7 +130,7 @@ def info():
 
     time.sleep(0.05)
     if thirst <= 20:
-        print(Fore.RED + "Thirst: {thirst}")
+        print(Fore.RED + f"Thirst: {thirst}")
     else:
         print(Fore.WHITE + f"Thirst: {thirst}")
 
@@ -374,7 +374,7 @@ print(Fore.YELLOW + "do you want to resume save game or start fresh")
 print(Fore.WHITE + "--------------------------------------------------")
 print("Available save files:")
 print(Fore.YELLOW + str(saves_list))
-print("only enter the file name, not the extension")
+print(Fore.WHITE + "only enter the file name, not the extension")
 print("--------------------------------------------------")
 print("1. Resume save game")
 print("2. Start fresh")

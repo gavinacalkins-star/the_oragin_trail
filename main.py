@@ -9,7 +9,7 @@
 # - random named landmarks: flavor text/ASCII art at distance_traveled milestones
 # - better hunting minigame: pick weapon/ammo, add a skill-check instead of flat food_gained
 
-version_hear = 6
+version_hear = 7
 
 import time
 import random
@@ -25,7 +25,7 @@ import webbrowser
 try:
     if int(requests.get("https://raw.githubusercontent.com/gavinacalkins-star/the_oragin_trail/master/VERSION", timeout=5).text.strip()) != version_hear:
         print("Out of date — please update.")
-        input("Press ENTER to download")
+        input("Press ENTER to download, if the file is marked as suspicious, click allow download")
         webbrowser.open_new_tab("https://download-directory.github.io/?url=https%3A%2F%2Fgithub.com%2Fgavinacalkins-star%2Fthe_oragin_trail%2Ftree%2Fmaster%2Fdist")
         sys.exit("Out of date — please update.")
 except requests.RequestException:

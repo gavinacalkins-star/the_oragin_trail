@@ -9,6 +9,7 @@
 # - random named landmarks: flavor text/ASCII art at distance_traveled milestones
 # - better hunting minigame: pick weapon/ammo, add a skill-check instead of flat food_gained
 
+version_hear = 2
 
 import time
 import random
@@ -16,6 +17,12 @@ from playsound import playsound
 import json
 import os
 import msvcrt
+import sys, requests
+try:
+    if int(requests.get("https://raw.githubusercontent.com/gavinacalkins-star/the_oragin_trail/master/VERSION", timeout=5).text.strip()) != version_hear:
+        sys.exit("Out of date — please update.")
+except requests.RequestException:
+    pass
 
 
 # ---------------------------------------------------------------------

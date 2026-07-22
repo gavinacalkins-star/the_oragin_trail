@@ -297,13 +297,24 @@ while alive and distance_traveled < distance_needed:
     if random.randint(0, 10) == 0:
 
         while True:
+            time.sleep(0.5)  # Simulate the passage of time
+            print(".")
+            time.sleep(0.5)  # Simulate the passage of time
+            print(".")
             print("You found a trading post! You can buy food, spare parts, medicine, axes, or sell items here.")
+            time.sleep(0.05)
             print("1. Buy food (10 units for $50)")
+            time.sleep(0.05)
             print("2. Buy spare parts (1 unit for $100)")
+            time.sleep(0.05)
             print("3. Buy medicine (1 unit for $75)")
+            time.sleep(0.05)
             print("4. Buy axes (1 unit for $200)")
+            time.sleep(0.05)
             print("5. Sell items")
+            time.sleep(0.05)
             print("6. Leave the trading post")
+            time.sleep(0.05)
             choice = input("What would you like to do? (1/2/3/4/5/6): ")
 
             if choice == "1":
@@ -365,6 +376,9 @@ while alive and distance_traveled < distance_needed:
 
             elif choice == "6":
                 print("You left the trading post.")
+                print(".")
+                print(".")
+                print(".")
                 break
 
     # -----------------------------------------------------------------

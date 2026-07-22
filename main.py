@@ -18,6 +18,9 @@ import json
 import os
 import msvcrt
 import sys, requests
+
+
+
 try:
     if int(requests.get("https://raw.githubusercontent.com/gavinacalkins-star/the_oragin_trail/master/VERSION", timeout=5).text.strip()) != version_hear:
         sys.exit("Out of date — please update.")

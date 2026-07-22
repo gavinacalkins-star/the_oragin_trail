@@ -292,16 +292,16 @@ while alive and distance_traveled < distance_needed:
         print(".")
 
     # -----------------------------------------------------------------
-    # Trading post (~1 in 4 chance per turn)
+    # Trading post (~1 in 10 chance per turn)
     # -----------------------------------------------------------------
-    if random.randint(0, 3) == 0:
+    if random.randint(0, 10) == 0:
 
         while True:
             print("You found a trading post! You can buy food, spare parts, medicine, axes, or sell items here.")
             print("1. Buy food (10 units for $50)")
             print("2. Buy spare parts (1 unit for $100)")
             print("3. Buy medicine (1 unit for $75)")
-            print("4. Buy axes (1 unit for $50)")
+            print("4. Buy axes (1 unit for $200)")
             print("5. Sell items")
             print("6. Leave the trading post")
             choice = input("What would you like to do? (1/2/3/4/5/6): ")
@@ -340,8 +340,29 @@ while alive and distance_traveled < distance_needed:
                     print("You don't have enough money to buy an axe.")
 
             elif choice == "5":
-                print("You can sell items here, but this feature is not implemented yet.")
-                # TODO: implement selling logic here
+                sell_prices = {"wood": 5, "water": 5, "axes": 100, "clothing": 30}
+                print("What do you want to sell?")
+                print(inventory)
+                print(f"Sell prices (per unit): {sell_prices}")
+                item_to_sell = input("Item: ").lower()
+
+                if item_to_sell not in inventory:
+                    print("You don't have that item.")
+                elif inventory[item_to_sell] <= 0:
+                    print(f"You don't have any {item_to_sell} to sell.")
+                else:
+                    quantity = input(f"How many {item_to_sell} do you want to sell (you have {inventory[item_to_sell]})? ")
+                    if not quantity.isdigit() or int(quantity) <= 0:
+                        print("Invalid quantity.")
+                    else:
+                        quantity = int(quantity)
+                        if quantity > inventory[item_to_sell]:
+                            print(f"You only have {inventory[item_to_sell]} {item_to_sell}.")
+                        else:
+                            earnings = quantity * sell_prices[item_to_sell]
+                            inventory[item_to_sell] -= quantity
+                            mony += earnings
+                            print(f"You sold {quantity} {item_to_sell} for ${earnings}.")
 
             elif choice == "6":
                 print("You left the trading post.")
@@ -391,7 +412,7 @@ while alive and distance_traveled < distance_needed:
         goto_next_day = False
 
     elif action == "gather":
-        item_to_gather = input("what do you want to gather? (wood/water)")
+        item_to_gather = input("what do you want to gather? (wood)")
         if item_to_gather == "wood":
             if inventory["axes"] >= 1:
                 inventory["wood"] += 10
@@ -399,7 +420,8 @@ while alive and distance_traveled < distance_needed:
                 print("you gatherd 10 wood")
             else:
                 print("you nead a axe first")
-        goto_next_day = False
+        goto_next_day = True
+
 
     elif action == "exit":
         # Save every piece of game state to the save file, one variable

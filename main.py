@@ -9,7 +9,7 @@
 # - random named landmarks: flavor text/ASCII art at distance_traveled milestones
 # - better hunting minigame: pick weapon/ammo, add a skill-check instead of flat food_gained
 
-version_hear = 7
+version_hear = 8
 
 import time
 import random
@@ -574,7 +574,7 @@ while alive and distance_traveled < distance_needed:
             goto_next_day = True
 
     elif action == "repair":
-        if wagon_damage <= 15:
+        if wagon_damage >= 15:
             print("the wagon is to damaged, you must by spare parts at the trading post to repair it")
             goto_next_day = False
         else:

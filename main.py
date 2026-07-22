@@ -23,6 +23,8 @@ import sys, requests
 
 try:
     if int(requests.get("https://raw.githubusercontent.com/gavinacalkins-star/the_oragin_trail/master/VERSION", timeout=5).text.strip()) != version_hear:
+        print("Out of date — please update.")
+        time.sleep(5)
         sys.exit("Out of date — please update.")
 except requests.RequestException:
     pass

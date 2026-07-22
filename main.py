@@ -9,7 +9,7 @@
 # - random named landmarks: flavor text/ASCII art at distance_traveled milestones
 # - better hunting minigame: pick weapon/ammo, add a skill-check instead of flat food_gained
 
-version_hear = 4
+version_hear = 5
 
 import time
 import random
@@ -253,6 +253,7 @@ def load_all():
 # The `time.sleep(0.05)` calls between prints give the intro a slow,
 # line-by-line "typing" reveal effect.
 print("made by Gavin c")
+print("version: " + str(version_hear))
 playsound("media/sound/game start.mp3")
 
 print('                        _.--.')

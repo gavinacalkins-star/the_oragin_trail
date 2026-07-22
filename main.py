@@ -331,7 +331,6 @@ while alive and distance_traveled < distance_needed:
                     print("You don't have enough money to buy medicine.")
 
             elif choice == "4":
-                # Note: the listed price is $50, but this actually charges $200.
                 if mony >= 200:
                     inventory["axes"] += 1
                     mony -= 200
@@ -388,11 +387,15 @@ while alive and distance_traveled < distance_needed:
             goto_next_day = True
 
     elif action == "repair":
-        wagon_damage -= random.randint(5, 15)
-        food -= random.randint(5, 15)
-        health -= random.randint(1, 10)
-        print(f"You repaired the wagon but lost some food and your health decreases.")
-        goto_next_day = False
+        if wagon_damage <= 15:
+            print("the wagon is to damaged, you must by spare parts at the trading post to repair it")
+            goto_next_day = False
+        else:
+            wagon_damage -= random.randint(5, 15)
+            food -= random.randint(5, 15)
+            health -= random.randint(1, 10)
+            print(f"You repaired the wagon but lost some food and your health decreases.")
+            goto_next_day = False
 
     elif action == "rest":
         food -= random.randint(5, 10)      # food consumed while resting

@@ -9,7 +9,7 @@
 # - random named landmarks: flavor text/ASCII art at distance_traveled milestones
 # - better hunting minigame: pick weapon/ammo, add a skill-check instead of flat food_gained
 
-version_hear = 2
+version_hear = 3
 
 import time
 import random
@@ -101,27 +101,33 @@ def info():
     print("--------------------------------------------------")
     time.sleep(0.05)
     print(f"Day {day}:")
+    print("--------------------------------------------------")
     time.sleep(0.05)
     print(f"Distance traveled: {distance_traveled} miles")
     time.sleep(0.05)
+    print("--------------------------------------------------")
     print(f"Food remaining: {food} units")
     time.sleep(0.05)
     print(f"Health: {health}")
     time.sleep(0.05)
+    print(f"Thirst: {thirst}")
+    time.sleep(0.05)
+    print("--------------------------------------------------")
     print(f"Wagon damage: {wagon_damage}")
     time.sleep(0.05)
     print(f"wagon name: {wagon_name}")
     time.sleep(0.05)
     print(f"pioner name: {pioner_name}")
     time.sleep(0.05)
+    print("--------------------------------------------------")
     print(f"money: {money}")
     time.sleep(0.05)
     print(inventory)
     time.sleep(0.05)
+    print("--------------------------------------------------")
     print(f"Difficulty: {difficulty}")
     time.sleep(0.05)
-    print(f"Thirst: {thirst}")
-    time.sleep(0.05)
+
     if wagon_damage > 0:
         print("you will travel slower because your wagon is damaged")
         time.sleep(0.05)

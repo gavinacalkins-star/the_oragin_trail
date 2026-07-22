@@ -23,6 +23,10 @@ day = 0
 save_file = "saves/save.json"
 saves_list = [f for f in os.listdir("saves") if os.path.isfile(os.path.join("saves", f))]
 goto_next_day = True
+children = 0
+child1_name = None
+child2_name = None
+child3_name = None
 
 
 def save_variable(var_name, value):
@@ -52,6 +56,33 @@ def get_saved_value(var_name):
 
     # Return the value if it matches the requested name
     return data.get(var_name, None)
+
+def info():
+    print("--------------------------------------------------")
+    time.sleep(0.05)
+    print(f"Day {day}:")
+    time.sleep(0.05)
+    print(f"Distance traveled: {distance_traveled} miles")
+    time.sleep(0.05)
+    print(f"Food remaining: {food} units")
+    time.sleep(0.05)
+    print(f"Health: {health}")
+    time.sleep(0.05)
+    print(f"Wagon damage: {wagon_damage}")
+    time.sleep(0.05)
+    print(f"wagon name: {wagon_name}")
+    time.sleep(0.05)
+    print(f"pioner name: {pioner_name}")
+    time.sleep(0.05)
+    print(f"Children: {children}")
+    print(f"    Child 1: {child1_name}")
+    print(f"    Child 2: {child2_name}")
+    print(f"    Child 3: {child3_name}")
+    time.sleep(0.05)
+    if wagon_damage > 0:
+        print("you will travel slower because your wagon is damaged")
+        time.sleep(0.05)
+    print("--------------------------------------------------")
 
 
 playsound("media/sound/game start.mp3")
@@ -151,22 +182,18 @@ if input() == "1":
     wagon_name = get_saved_value("wagon_name")
     pioner_name = get_saved_value("pioner_name")
     alive = get_saved_value("alive")
+    children = get_saved_value("children")
+    child1_name = get_saved_value("child1_name")
+    child2_name = get_saved_value("child2_name")
+    child3_name = get_saved_value("child3_name")
     print("Resuming saved game...")
     time.sleep(1)  # Simulate the passage of time
     print(".")
     time.sleep(1)  # Simulate the passage of time
     print(".")
     print("save gave restored")
-    print("--------------------------------------------------")
-    print(f"\nDay {day}:")
-    print(f"Distance traveled: {distance_traveled} miles")
-    print(f"Food remaining: {food} units")
-    print(f"Health: {health}")
-    print(f"Wagon damage: {wagon_damage}")
-    print(f"wagon name: {wagon_name}")
-    print(f"pioner name: {pioner_name}")
-    print(f"alive: {alive}")
-    print("--------------------------------------------------")
+    info()
+
 
 
 else:
@@ -178,22 +205,8 @@ else:
 
 
 while alive and distance_traveled < distance_needed:
-    print("--------------------------------------------------")
-    time.sleep(0.05)
-    print(f"Day {day}:")
-    time.sleep(0.05)
-    print(f"Distance traveled: {distance_traveled} miles")
-    time.sleep(0.05)
-    print(f"Food remaining: {food} units")
-    time.sleep(0.05)
-    print(f"Health: {health}")
-    time.sleep(0.05)
-    print(f"Wagon damage: {wagon_damage}")
-    time.sleep(0.05)
-    if wagon_damage > 0:
-        print("you will travel slower because your wagon is damaged")
-        time.sleep(0.05)
-    print("--------------------------------------------------")
+    info()
+
 
     if random.randint(0, 10) == 0:
         encounter = random.choice(["bandits", "storm", "sickness"])
@@ -250,7 +263,7 @@ while alive and distance_traveled < distance_needed:
             food -= random.randint(5, 15)
             health -= random.randint(1, 10)
             print(f"You repaired the wagon but lost some food and your health decreases.")
-            goto_next_day = True
+            goto_next_day = False
 
         elif action == "rest":
             food -= random.randint(5, 10)  # food consumed while resting
@@ -266,9 +279,8 @@ while alive and distance_traveled < distance_needed:
             goto_next_day = False
 
         elif action == "status":
-            print(f"Distance traveled: {distance_traveled} miles")
-            print(f"Food remaining: {food} units")
-            print(f"Health: {health}")
+            info()
+
             goto_next_day = False
 
         elif action == "exit":
@@ -296,6 +308,14 @@ while alive and distance_traveled < distance_needed:
             time.sleep(0.05)
             (save_variable("alive", alive))
             print("saved alive")
+            (save_variable("children", children))
+            print("saved children")
+            (save_variable("child1_name", child1_name))
+            print("saved child1_name")
+            (save_variable("child2_name", child2_name))
+            print("saved child2_name")
+            (save_variable("child3_name", child3_name))
+            print("saved child3_name")
             time.sleep(0.05)
             os.rename("saves/save.json", f"saves/{input('Enter the name for your savegame: ')}.json")
             print("saved save")

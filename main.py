@@ -19,6 +19,7 @@ import os
 import msvcrt
 import sys, requests
 import webbrowser
+from colorama import Fore, Back, Style, init
 
 
 
@@ -114,24 +115,41 @@ def info():
     time.sleep(0.05)
     print(f"Distance remaining: {distance_needed - distance_traveled} miles")
     time.sleep(0.05)
-    print(f"you are {(distance_traveled / distance_needed) * 100}% of the way to oregon")
+    print(f"you are {round((distance_traveled / distance_needed) * 100 , 2)}% of the way to oregon")
     time.sleep(0.05)
     print("--------------------------------------------------")
-    print(f"Food remaining: {food} units")
+    if food <= 20:
+        print(Fore.RED + f"Food remaining: {food} units")
+    else:
+        print(Fore.WHITE + f"Food remaining: {food} units")
     time.sleep(0.05)
-    print(f"stamina: {stamina}")
+    if stamina <= 20:
+        print(Fore.RED + f"stamina: {stamina}")
+    else:
+        print(Fore.WHITE + f"stamina: {stamina}")
+
     time.sleep(0.05)
-    print(f"Thirst: {thirst}")
+    if thirst <= 20:
+        print(Fore.RED + "Thirst: {thirst}")
+    else:
+        print(Fore.WHITE + f"Thirst: {thirst}")
+
     time.sleep(0.05)
     print("--------------------------------------------------")
-    print(f"Wagon damage: {wagon_damage}")
+    if wagon_damage > 10:
+        print(Fore.RED + "Wagon damage: {wagon_damage}")
+    else:
+        print(Fore.WHITE + f"Wagon damage: {wagon_damage}")
     time.sleep(0.05)
     print(f"wagon name: {wagon_name}")
     time.sleep(0.05)
     print(f"pioner name: {pioner_name}")
     time.sleep(0.05)
     print("--------------------------------------------------")
-    print(f"money: {money}")
+    if money < 200:
+        print(Fore.RED + "money: {money}")
+    else:
+        print(Fore.WHITE + f"money: {money}")
     time.sleep(0.05)
     print(inventory)
     time.sleep(0.05)
@@ -140,9 +158,9 @@ def info():
     time.sleep(0.05)
 
     if wagon_damage > 0:
-        print("you will travel slower because your wagon is damaged")
+        print(Fore.RED + "you will travel slower because your wagon is damaged")
         time.sleep(0.05)
-    print("--------------------------------------------------")
+    print(Fore.WHITE + "--------------------------------------------------")
 
 
 def hunt_minigame(speed=0.05, tolerance=0):
@@ -267,7 +285,7 @@ print("made by Gavin c")
 print("version: " + str(version_hear))
 playsound("media/sound/game start.mp3")
 
-print('                        _.--.')
+print(Style.DIM + Fore.YELLOW + Style.BRIGHT + '                        _.--.')
 time.sleep(0.05)
 print("                    _.-'_:-'||")
 time.sleep(0.05)
@@ -304,10 +322,10 @@ time.sleep(0.05)
 print(' \\__/                          \\__/')
 time.sleep(0.1)
 
-print('==================================================================')
+print(Fore.RESET + Style.RESET_ALL + Fore.WHITE+ '==================================================================')
 time.sleep(0.05)
 # "THE OREGON" banner (block letters)
-print('#   # ##### #      ####  ###  #   # #####       #####  ###  ')
+print(Fore.GREEN + '#   # ##### #      ####  ###  #   # #####       #####  ###  ')
 time.sleep(0.05)
 print('#   # #     #     #     #   # ## ## #             #   #   # ')
 time.sleep(0.05)
@@ -342,7 +360,7 @@ print('  #   #  #  #   #   #   #     ')
 time.sleep(0.05)
 print('  #   #   # #   # ##### ##### ')
 time.sleep(0.05)
-print('==================================================================')
+print(Fore.WHITE + '==================================================================')
 print('                  A game of grit, grass, and dysentery.           ')
 input("                    Press Enter to start your journey            ")
 print('==================================================================')
@@ -352,10 +370,10 @@ print('==================================================================')
 # Start menu: resume a save or start a new game
 # ---------------------------------------------------------------------
 
-print("do you want to resume save game or start fresh")
-print("--------------------------------------------------")
+print(Fore.YELLOW + "do you want to resume save game or start fresh")
+print(Fore.WHITE + "--------------------------------------------------")
 print("Available save files:")
-print(saves_list)
+print(Fore.YELLOW + str(saves_list))
 print("only enter the file name, not the extension")
 print("--------------------------------------------------")
 print("1. Resume save game")
@@ -371,15 +389,15 @@ if input() == "1":
 
     print("Resuming saved game...")
     time.sleep(1)  # Simulate the passage of time
-    print(".")
+    print(Fore.RED + ".")
     time.sleep(1)  # Simulate the passage of time
-    print(".")
-    print("save gave restored")
+    print(Fore.RED + ".")
+    print(Fore.WHITE + "save gave restored")
     info()
 
 else:
     # Fresh start: ask for names and show the welcome message.
-    wagon_name = input("Wagon name: ")
+    wagon_name = input(Fore.YELLOW + "Wagon name: ")
     pioner_name = input("Pioner name: ")
     difficulty = input("Difficulty, 1,2,3: ")
 
@@ -413,7 +431,7 @@ else:
         stamina_per_hunt_min = 5
         stamina_per_hunt_max = 15
 
-    print(
+    print(Fore.WHITE +
         f"Welcome {pioner_name} to the Oregon Trail! Your wagon is named {wagon_name}. "
         f"You have {food} units of food and {stamina} stamina. Your goal is to travel "
         f"{distance_needed} miles to reach your destination. Good luck!"
@@ -439,29 +457,28 @@ while alive and distance_traveled < distance_needed:
         encounter = random.choice(["bandits", "storm", "sickness"])
 
         if encounter == "bandits":
-            print("You encountered bandits! They stole some of your food and damaged the wagon.")
+            print(Fore.RED + "You encountered bandits! They stole some of your food and damaged the wagon.")
             if food > 21:
                 food -= random.randint(10, 20)
                 wagon_damage += random.randint(10, 20)
             else:
-                print("You don't have enough food to lose. The bandits hit you instead")
+                print(Fore.RED + "You don't have enough food to lose. The bandits hit you instead")
                 stamina -= random.randint(1, 20)
                 wagon_damage += random.randint(1, 20)
 
         elif encounter == "storm":
+            print(Fore.RED + "A storm has hit! You lost some food and your stamina decreased.")
             playsound("media/sound/storm.mp3")
-            print("A storm has hit! You lost some food and your stamina decreased.")
             food -= random.randint(5, 15)
             stamina -= random.randint(5, 15)
             wagon_damage += random.randint(5, 15)
 
         elif encounter == "sickness":
-            playsound("media/sound/sic.mp3")
-            print("You have fallen ill! Your stamina has decreased.")
+            print(Fore.RED + "You have fallen ill! Your stamina has decreased.")
             stamina -= random.randint(10, 20)
 
-        print(f"After the encounter, you have {food} units of food and {stamina} stamina.")
-        input("Press Enter to continue...")
+        print(Fore.YELLOW + "After the encounter, you have {food} units of food and {stamina} stamina.")
+        input(Fore.WHITE + "Press Enter to continue...")
         time.sleep(1)  # Simulate the passage of time
         print(".")
         time.sleep(1)  # Simulate the passage of time

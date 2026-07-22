@@ -4,12 +4,12 @@
 #
 # TODO / ideas for future features:
 # - river crossings: ford, caulk & float, or pay a ferry; risk losing supplies
-# - weather/seasons: derive month from `day`, slow travel and drain health in winter
-# - difficulty settings: adjust starting food/health and encounter frequency
+# - weather/seasons: derive month from `day`, slow travel and drain stamina in winter
+# - difficulty settings: adjust starting food/stamina and encounter frequency
 # - random named landmarks: flavor text/ASCII art at distance_traveled milestones
 # - better hunting minigame: pick weapon/ammo, add a skill-check instead of flat food_gained
 
-version_hear = 3
+version_hear = 4
 
 import time
 import random
@@ -37,7 +37,7 @@ pioner_name = None         # name of the player character (sic - kept for save-f
 distance_needed = 2170     # total miles to travel to "win" the game
 distance_traveled = 0       # miles traveled so far
 food = 100                 # food supply (units)
-health = 100                # player health (0 = dead)
+stamina = 100                # player stamina (0 = dead)
 wagon_damage = 0           # wagon damage (higher = worse, slows travel)
 alive = True                # main loop keeps running while this is True
 day = 0                     # current day count
@@ -50,8 +50,8 @@ travel_max = None
 travel_min = None
 repair_max = None
 repair_min = None
-health_per_hunt_max = None
-health_per_hunt_min = None
+stamina_per_hunt_max = None
+stamina_per_hunt_min = None
 food_per_hunt_max = None
 food_per_hunt_min = None
 thirst = 0
@@ -97,7 +97,7 @@ def get_saved_value(var_name):
 
 
 def info():
-    """Print the current game status (day, distance, food, health, etc.)."""
+    """Print the current game status (day, distance, food, stamina, etc.)."""
     print("--------------------------------------------------")
     time.sleep(0.05)
     print(f"Day {day}:")
@@ -108,7 +108,7 @@ def info():
     print("--------------------------------------------------")
     print(f"Food remaining: {food} units")
     time.sleep(0.05)
-    print(f"Health: {health}")
+    print(f"stamina: {stamina}")
     time.sleep(0.05)
     print(f"Thirst: {thirst}")
     time.sleep(0.05)
@@ -173,8 +173,8 @@ def save_all():
     print("saved food")
     time.sleep(0.05)
 
-    save_variable("health", health)
-    print("saved health")
+    save_variable("stamina", stamina)
+    print("saved stamina")
     time.sleep(0.05)
 
     save_variable("wagon_damage", wagon_damage)
@@ -215,19 +215,19 @@ def save_all():
     save_variable("repair_max", repair_max)
     save_variable("food_per_hunt_min", food_per_hunt_min)
     save_variable("food_per_hunt_max", food_per_hunt_max)
-    save_variable("health_per_hunt_min", health_per_hunt_min)
-    save_variable("health_per_hunt_max", health_per_hunt_max)
+    save_variable("stamina_per_hunt_min", stamina_per_hunt_min)
+    save_variable("stamina_per_hunt_max", stamina_per_hunt_max)
     print("saved difficulty settings")
 
 
 def load_all():
 
-    global distance_traveled, food, health, wagon_damage, day, wagon_name, pioner_name, alive, money, inventory, difficulty
-    global travel_min, travel_max, repair_min, repair_max, food_per_hunt_min, food_per_hunt_max, health_per_hunt_min, health_per_hunt_max
+    global distance_traveled, food, stamina, wagon_damage, day, wagon_name, pioner_name, alive, money, inventory, difficulty
+    global travel_min, travel_max, repair_min, repair_max, food_per_hunt_min, food_per_hunt_max, stamina_per_hunt_min, stamina_per_hunt_max
 
     distance_traveled = get_saved_value("distance_traveled")
     food = get_saved_value("food")
-    health = get_saved_value("health")
+    stamina = get_saved_value("stamina")
     wagon_damage = get_saved_value("wagon_damage")
     day = get_saved_value("day")
     wagon_name = get_saved_value("wagon_name")
@@ -242,8 +242,8 @@ def load_all():
     repair_max = get_saved_value("repair_max")
     food_per_hunt_min = get_saved_value("food_per_hunt_min")
     food_per_hunt_max = get_saved_value("food_per_hunt_max")
-    health_per_hunt_min = get_saved_value("health_per_hunt_min")
-    health_per_hunt_max = get_saved_value("health_per_hunt_max")
+    stamina_per_hunt_min = get_saved_value("stamina_per_hunt_min")
+    stamina_per_hunt_max = get_saved_value("stamina_per_hunt_max")
 
 
 # ---------------------------------------------------------------------
@@ -378,8 +378,8 @@ else:
         repair_max = 20
         food_per_hunt_min = 20
         food_per_hunt_max = 30
-        health_per_hunt_min = 1
-        health_per_hunt_max = 5
+        stamina_per_hunt_min = 1
+        stamina_per_hunt_max = 5
 
     elif difficulty == "2":
         travel_min = 12
@@ -388,8 +388,8 @@ else:
         repair_max = 15
         food_per_hunt_min = 15
         food_per_hunt_max = 25
-        health_per_hunt_min = 1
-        health_per_hunt_max = 10
+        stamina_per_hunt_min = 1
+        stamina_per_hunt_max = 10
 
     elif difficulty == "3":
         travel_min = 9
@@ -398,12 +398,12 @@ else:
         repair_max = 8
         food_per_hunt_min = 10
         food_per_hunt_max = 18
-        health_per_hunt_min = 5
-        health_per_hunt_max = 15
+        stamina_per_hunt_min = 5
+        stamina_per_hunt_max = 15
 
     print(
         f"Welcome {pioner_name} to the Oregon Trail! Your wagon is named {wagon_name}. "
-        f"You have {food} units of food and {health} health. Your goal is to travel "
+        f"You have {food} units of food and {stamina} stamina. Your goal is to travel "
         f"{distance_needed} miles to reach your destination. Good luck!"
     )
 
@@ -433,22 +433,22 @@ while alive and distance_traveled < distance_needed:
                 wagon_damage += random.randint(10, 20)
             else:
                 print("You don't have enough food to lose. The bandits hit you instead")
-                health -= random.randint(1, 20)
+                stamina -= random.randint(1, 20)
                 wagon_damage += random.randint(1, 20)
 
         elif encounter == "storm":
             playsound("media/sound/storm.mp3")
-            print("A storm has hit! You lost some food and your health decreased.")
+            print("A storm has hit! You lost some food and your stamina decreased.")
             food -= random.randint(5, 15)
-            health -= random.randint(5, 15)
+            stamina -= random.randint(5, 15)
             wagon_damage += random.randint(5, 15)
 
         elif encounter == "sickness":
             playsound("media/sound/sic.mp3")
-            print("You have fallen ill! Your health has decreased.")
-            health -= random.randint(10, 20)
+            print("You have fallen ill! Your stamina has decreased.")
+            stamina -= random.randint(10, 20)
 
-        print(f"After the encounter, you have {food} units of food and {health} health.")
+        print(f"After the encounter, you have {food} units of food and {stamina} stamina.")
         input("Press Enter to continue...")
         time.sleep(1)  # Simulate the passage of time
         print(".")
@@ -499,9 +499,9 @@ while alive and distance_traveled < distance_needed:
 
             elif choice == "3":
                 if money >= 75:
-                    health += 10
+                    stamina += 10
                     money -= 75
-                    print("You bought medicine and improved your health.")
+                    print("You bought medicine and improved your stamina.")
                 else:
                     print("You don't have enough money to buy medicine.")
 
@@ -560,7 +560,7 @@ while alive and distance_traveled < distance_needed:
             travel_distance = round(random.randint(travel_min, travel_max) - (wagon_damage / 10))  # miles traveled per day
             distance_traveled += travel_distance
             food -= random.randint(5, 15)          # food consumed per day of travel
-            health -= random.randint(1, 10)        # health decreases due to travel
+            stamina -= random.randint(1, 10)        # stamina decreases due to travel
             wagon_damage += random.randint(1, 5)   # wagon damage increases due to travel
             print(f"You traveled {travel_distance} miles.")
             goto_next_day = True
@@ -572,13 +572,13 @@ while alive and distance_traveled < distance_needed:
         else:
             wagon_damage -= random.randint(repair_min, repair_max)
             food -= random.randint(5, 15)
-            health -= random.randint(1, 10)
-            print(f"You repaired the wagon but lost some food and your health decreases.")
+            stamina -= random.randint(1, 10)
+            print(f"You repaired the wagon but lost some food and your stamina decreases.")
             goto_next_day = False
 
     elif action == "rest":
         food -= random.randint(5, 10)      # food consumed while resting
-        health += random.randint(5, 15)    # health improves while resting
+        stamina += random.randint(5, 15)    # stamina improves while resting
         print("You rested for the day.")
         goto_next_day = True
 
@@ -587,13 +587,13 @@ while alive and distance_traveled < distance_needed:
             print("You hit the animal!")
             food_gained = random.randint(food_per_hunt_min, food_per_hunt_max)   # food gained from hunting
             food += food_gained
-            health -= random.randint(health_per_hunt_min, health_per_hunt_max)        # health decreases due to hunting effort
+            stamina -= random.randint(stamina_per_hunt_min, stamina_per_hunt_max)        # stamina decreases due to hunting effort
             print(f"You hunted and gained {food_gained} units of food.")
             goto_next_day = False
         else:
             print("You missed the animal.")
             food -= random.randint(5, 10)          # food consumed while hunting
-            health -= random.randint(1, 10)        # health decreases due to hunting effort
+            stamina -= random.randint(1, 10)        # stamina decreases due to hunting effort
             goto_next_day = False
     elif action == "status":
         info()
@@ -651,9 +651,9 @@ while alive and distance_traveled < distance_needed:
     if food <= 0:
         alive = False
         print("You have run out of food and cannot continue. You have died.")
-    if health <= 0:
+    if stamina <= 0:
         alive = False
-        print("Your health has deteriorated too much. You have died.")
+        print("Your stamina has deteriorated too much. You have died.")
     if thirst > 100:
         alive = False
         print("You have died of dehydration.")
@@ -662,8 +662,8 @@ while alive and distance_traveled < distance_needed:
     # -----------------------------------------------------------------
     if wagon_damage <= 0:
         wagon_damage = 0
-    if health >= 100:
-        health = 100
+    if stamina >= 100:
+        stamina = 100
     if food >= 100:
         food = 100
 

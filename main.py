@@ -47,6 +47,7 @@ health_per_hunt_max = None
 health_per_hunt_min = None
 food_per_hunt_max = None
 food_per_hunt_min = None
+thirst = 0
 
 # List existing save files so the player can choose one to resume.
 saves_list = [f for f in os.listdir("saves") if os.path.isfile(os.path.join("saves", f))]
@@ -109,6 +110,10 @@ def info():
     print(f"money: {money}")
     time.sleep(0.05)
     print(inventory)
+    time.sleep(0.05)
+    print(f"Difficulty: {difficulty}")
+    time.sleep(0.05)
+    print(f"Thirst: {thirst}")
     time.sleep(0.05)
     if wagon_damage > 0:
         print("you will travel slower because your wagon is damaged")
@@ -530,7 +535,7 @@ while alive and distance_traveled < distance_needed:
     # -----------------------------------------------------------------
     # Player action for this turn
     # -----------------------------------------------------------------
-    action = input("What would you like to do? (travel/rest/hunt/status/repair/gather/exit): ").lower()
+    action = input("What would you like to do? (travel/rest/hunt/status/repair/gather/drink/exit): ").lower()
 
     if action == "travel":
         if wagon_damage > 50:
@@ -582,7 +587,7 @@ while alive and distance_traveled < distance_needed:
         goto_next_day = False
 
     elif action == "gather":
-        item_to_gather = input("what do you want to gather? (wood)")
+        item_to_gather = input("what do you want to gather? (wood, water)")
         if item_to_gather == "wood":
             if inventory["axes"] >= 1:
                 inventory["wood"] += 10
@@ -590,7 +595,25 @@ while alive and distance_traveled < distance_needed:
                 print("you gathered 10 wood")
             else:
                 print("you need a axe first")
-        goto_next_day = True
+
+        elif item_to_gather == "water":
+            if random.random() > 0.5:
+                inventory["water"] += 10
+                food -= random.randint(10, 15)
+                print("you gathered 10 water")
+
+            else:
+                print("there is no water to gather")
+            goto_next_day = True
+
+    elif action == "drink":
+        if inventory["water"] >= 1:
+            inventory["water"] -= 1
+            thirst -= 20
+            print("you drank some water")
+        else:
+            print("you have no water to drink")
+        goto_next_day = False
 
 
     elif action == "exit":
@@ -618,7 +641,9 @@ while alive and distance_traveled < distance_needed:
     if health <= 0:
         alive = False
         print("Your health has deteriorated too much. You have died.")
-
+    if thirst > 100:
+        alive = False
+        print("You have died of dehydration.")
     # -----------------------------------------------------------------
     # Clamp stats to their valid ranges
     # -----------------------------------------------------------------
@@ -634,6 +659,7 @@ while alive and distance_traveled < distance_needed:
     # -----------------------------------------------------------------
     if goto_next_day:
         day += 1
+        thirst += 5
         time.sleep(1)  # Simulate the passage of time
         print(".")
         time.sleep(1)  # Simulate the passage of time

@@ -36,7 +36,7 @@ alive = True                # main loop keeps running while this is True
 day = 0                     # current day count
 save_file = "saves/save.json"
 goto_next_day = True        # whether the current action should advance the day
-mony = 1000                 # money (sic - kept for save-file compatibility)
+money = 1000                 # money (sic - kept for save-file compatibility)
 inventory = {"wood": 0, "water": 0, "axes": 0, "clothing": 0}
 difficulty = None
 travel_max = None
@@ -106,7 +106,7 @@ def info():
     time.sleep(0.05)
     print(f"pioner name: {pioner_name}")
     time.sleep(0.05)
-    print(f"money: {mony}")
+    print(f"money: {money}")
     time.sleep(0.05)
     print(inventory)
     time.sleep(0.05)
@@ -179,8 +179,8 @@ def save_all():
     print("saved alive")
     time.sleep(0.05)
 
-    save_variable("mony", mony)
-    print("saved mony")
+    save_variable("money", money)
+    print("saved money")
     time.sleep(0.05)
 
     save_variable("inventory", inventory)
@@ -204,7 +204,7 @@ def save_all():
 
 def load_all():
 
-    global distance_traveled, food, health, wagon_damage, day, wagon_name, pioner_name, alive, mony, inventory, difficulty
+    global distance_traveled, food, health, wagon_damage, day, wagon_name, pioner_name, alive, money, inventory, difficulty
     global travel_min, travel_max, repair_min, repair_max, food_per_hunt_min, food_per_hunt_max, health_per_hunt_min, health_per_hunt_max
 
     distance_traveled = get_saved_value("distance_traveled")
@@ -215,7 +215,7 @@ def load_all():
     wagon_name = get_saved_value("wagon_name")
     pioner_name = get_saved_value("pioner_name")
     alive = get_saved_value("alive")
-    mony = get_saved_value("mony")
+    money = get_saved_value("money")
     inventory = get_saved_value("inventory")
     difficulty = get_saved_value("difficulty")
     travel_min = get_saved_value("travel_min")
@@ -464,33 +464,33 @@ while alive and distance_traveled < distance_needed:
             choice = input("What would you like to do? (1/2/3/4/5/6): ")
 
             if choice == "1":
-                if mony >= 50:
+                if money >= 50:
                     food += 10
-                    mony -= 50
+                    money -= 50
                     print("You bought 10 units of food.")
                 else:
                     print("You don't have enough money to buy food.")
 
             elif choice == "2":
-                if mony >= 100:
+                if money >= 100:
                     wagon_damage -= 10
-                    mony -= 100
+                    money -= 100
                     print("You bought spare parts and repaired your wagon.")
                 else:
                     print("You don't have enough money to buy spare parts.")
 
             elif choice == "3":
-                if mony >= 75:
+                if money >= 75:
                     health += 10
-                    mony -= 75
+                    money -= 75
                     print("You bought medicine and improved your health.")
                 else:
                     print("You don't have enough money to buy medicine.")
 
             elif choice == "4":
-                if mony >= 200:
+                if money >= 200:
                     inventory["axes"] += 1
-                    mony -= 200
+                    money -= 200
                     print("You bought an axe.")
                 else:
                     print("You don't have enough money to buy an axe.")
@@ -517,7 +517,7 @@ while alive and distance_traveled < distance_needed:
                         else:
                             earnings = quantity * sell_prices[item_to_sell]
                             inventory[item_to_sell] -= quantity
-                            mony += earnings
+                            money += earnings
                             print(f"You sold {quantity} {item_to_sell} for ${earnings}.")
 
             elif choice == "6":
@@ -587,9 +587,9 @@ while alive and distance_traveled < distance_needed:
             if inventory["axes"] >= 1:
                 inventory["wood"] += 10
                 food -= random.randint(10, 15)
-                print("you gatherd 10 wood")
+                print("you gathered 10 wood")
             else:
-                print("you nead a axe first")
+                print("you need a axe first")
         goto_next_day = True
 
 

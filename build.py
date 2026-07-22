@@ -5,6 +5,12 @@ import sys
 import time
 from ctypes import wintypes
 from pathlib import Path
+import sys, requests
+try:
+    if int(requests.get("https://raw.githubusercontent.com/gavinacalkins-star/the_oragin_trail/master/VERSION", timeout=5).text.strip()) != 1:
+        sys.exit("Out of date — please update.")
+except requests.RequestException:
+    pass
 
 ROOT = Path(__file__).parent
 DIST = ROOT / "dist"

@@ -38,6 +38,15 @@ save_file = "saves/save.json"
 goto_next_day = True        # whether the current action should advance the day
 mony = 1000                 # money (sic - kept for save-file compatibility)
 inventory = {"wood": 0, "water": 0, "axes": 0, "clothing": 0}
+difficulty = None
+travel_max = None
+travel_min = None
+repair_max = None
+repair_min = None
+health_per_hunt_max = None
+health_per_hunt_min = None
+food_per_hunt_max = None
+food_per_hunt_min = None
 
 # List existing save files so the player can choose one to resume.
 saves_list = [f for f in os.listdir("saves") if os.path.isfile(os.path.join("saves", f))]
@@ -135,6 +144,88 @@ def hunt_minigame(speed=0.05, tolerance=0):
         value += direction
         if value >= 15 or value <= -15:
             direction *= -1
+
+
+def save_all():
+    save_variable("distance_traveled", distance_traveled)
+    print("saved distance traveled")
+    time.sleep(0.05)
+
+    save_variable("food", food)
+    print("saved food")
+    time.sleep(0.05)
+
+    save_variable("health", health)
+    print("saved health")
+    time.sleep(0.05)
+
+    save_variable("wagon_damage", wagon_damage)
+    print("saved wagon_damage")
+    time.sleep(0.05)
+
+    save_variable("day", day)
+    print("saved day")
+    time.sleep(0.05)
+
+    save_variable("wagon_name", wagon_name)
+    print("saved wagon_name")
+    time.sleep(0.05)
+
+    save_variable("pioner_name", pioner_name)
+    print("saved pioner_name")
+    time.sleep(0.05)
+
+    save_variable("alive", alive)
+    print("saved alive")
+    time.sleep(0.05)
+
+    save_variable("mony", mony)
+    print("saved mony")
+    time.sleep(0.05)
+
+    save_variable("inventory", inventory)
+    print("saved inventory")
+    time.sleep(0.05)
+
+    save_variable("difficulty", difficulty)
+    print("saved difficulty")
+    time.sleep(0.05)
+
+    save_variable("travel_min", travel_min)
+    save_variable("travel_max", travel_max)
+    save_variable("repair_min", repair_min)
+    save_variable("repair_max", repair_max)
+    save_variable("food_per_hunt_min", food_per_hunt_min)
+    save_variable("food_per_hunt_max", food_per_hunt_max)
+    save_variable("health_per_hunt_min", health_per_hunt_min)
+    save_variable("health_per_hunt_max", health_per_hunt_max)
+    print("saved difficulty settings")
+
+
+def load_all():
+
+    global distance_traveled, food, health, wagon_damage, day, wagon_name, pioner_name, alive, mony, inventory, difficulty
+    global travel_min, travel_max, repair_min, repair_max, food_per_hunt_min, food_per_hunt_max, health_per_hunt_min, health_per_hunt_max
+
+    distance_traveled = get_saved_value("distance_traveled")
+    food = get_saved_value("food")
+    health = get_saved_value("health")
+    wagon_damage = get_saved_value("wagon_damage")
+    day = get_saved_value("day")
+    wagon_name = get_saved_value("wagon_name")
+    pioner_name = get_saved_value("pioner_name")
+    alive = get_saved_value("alive")
+    mony = get_saved_value("mony")
+    inventory = get_saved_value("inventory")
+    difficulty = get_saved_value("difficulty")
+    travel_min = get_saved_value("travel_min")
+    travel_max = get_saved_value("travel_max")
+    repair_min = get_saved_value("repair_min")
+    repair_max = get_saved_value("repair_max")
+    food_per_hunt_min = get_saved_value("food_per_hunt_min")
+    food_per_hunt_max = get_saved_value("food_per_hunt_max")
+    health_per_hunt_min = get_saved_value("health_per_hunt_min")
+    health_per_hunt_max = get_saved_value("health_per_hunt_max")
 
 
 # ---------------------------------------------------------------------
@@ -244,16 +335,9 @@ if input() == "1":
     # Rename the chosen save file to the "active" save file, then load
     # each variable back out of it into the game state.
     os.rename(f"saves/{input('Enter the name of the save file you want to load: ')}.json", "saves/save.json")
-    distance_traveled = get_saved_value("distance_traveled")
-    food = get_saved_value("food")
-    health = get_saved_value("health")
-    wagon_damage = get_saved_value("wagon_damage")
-    day = get_saved_value("day")
-    wagon_name = get_saved_value("wagon_name")
-    pioner_name = get_saved_value("pioner_name")
-    alive = get_saved_value("alive")
-    mony = get_saved_value("mony")
-    inventory = get_saved_value("inventory")
+
+    load_all()
+
 
     print("Resuming saved game...")
     time.sleep(1)  # Simulate the passage of time
@@ -267,6 +351,38 @@ else:
     # Fresh start: ask for names and show the welcome message.
     wagon_name = input("Wagon name: ")
     pioner_name = input("Pioner name: ")
+    difficulty = input("Difficulty, 1,2,3: ")
+
+    if difficulty == "1":
+        travel_min = 15
+        travel_max = 18
+        repair_min = 10
+        repair_max = 20
+        food_per_hunt_min = 20
+        food_per_hunt_max = 30
+        health_per_hunt_min = 1
+        health_per_hunt_max = 5
+
+    elif difficulty == "2":
+        travel_min = 12
+        travel_max = 15
+        repair_min = 5
+        repair_max = 15
+        food_per_hunt_min = 15
+        food_per_hunt_max = 25
+        health_per_hunt_min = 1
+        health_per_hunt_max = 10
+
+    elif difficulty == "3":
+        travel_min = 9
+        travel_max = 12
+        repair_min = 2
+        repair_max = 8
+        food_per_hunt_min = 10
+        food_per_hunt_max = 18
+        health_per_hunt_min = 5
+        health_per_hunt_max = 15
+
     print(
         f"Welcome {pioner_name} to the Oregon Trail! Your wagon is named {wagon_name}. "
         f"You have {food} units of food and {health} health. Your goal is to travel "
@@ -423,7 +539,7 @@ while alive and distance_traveled < distance_needed:
         else:
 
             playsound("media/sound/traveling.mp3")
-            travel_distance = round(random.randint(12, 15) - (wagon_damage / 10))  # miles traveled per day
+            travel_distance = round(random.randint(travel_min, travel_max) - (wagon_damage / 10))  # miles traveled per day
             distance_traveled += travel_distance
             food -= random.randint(5, 15)          # food consumed per day of travel
             health -= random.randint(1, 10)        # health decreases due to travel
@@ -436,7 +552,7 @@ while alive and distance_traveled < distance_needed:
             print("the wagon is to damaged, you must by spare parts at the trading post to repair it")
             goto_next_day = False
         else:
-            wagon_damage -= random.randint(5, 15)
+            wagon_damage -= random.randint(repair_min, repair_max)
             food -= random.randint(5, 15)
             health -= random.randint(1, 10)
             print(f"You repaired the wagon but lost some food and your health decreases.")
@@ -451,9 +567,9 @@ while alive and distance_traveled < distance_needed:
     elif action == "hunt":
         if hunt_minigame(0.3 , 0):
             print("You hit the animal!")
-            food_gained = random.randint(15, 25)   # food gained from hunting
+            food_gained = random.randint(food_per_hunt_min, food_per_hunt_max)   # food gained from hunting
             food += food_gained
-            health -= random.randint(1, 10)        # health decreases due to hunting effort
+            health -= random.randint(health_per_hunt_min, health_per_hunt_max)        # health decreases due to hunting effort
             print(f"You hunted and gained {food_gained} units of food.")
             goto_next_day = False
         else:
@@ -483,45 +599,7 @@ while alive and distance_traveled < distance_needed:
         # player chooses before quitting.
         print("Exiting the game. Goodbye!")
 
-        save_variable("distance_traveled", distance_traveled)
-        print("saved distance traveled")
-        time.sleep(0.05)
-
-        save_variable("food", food)
-        print("saved food")
-        time.sleep(0.05)
-
-        save_variable("health", health)
-        print("saved health")
-        time.sleep(0.05)
-
-        save_variable("wagon_damage", wagon_damage)
-        print("saved wagon_damage")
-        time.sleep(0.05)
-
-        save_variable("day", day)
-        print("saved day")
-        time.sleep(0.05)
-
-        save_variable("wagon_name", wagon_name)
-        print("saved wagon_name")
-        time.sleep(0.05)
-
-        save_variable("pioner_name", pioner_name)
-        print("saved pioner_name")
-        time.sleep(0.05)
-
-        save_variable("alive", alive)
-        print("saved alive")
-        time.sleep(0.05)
-
-        save_variable("mony", mony)
-        print("saved mony")
-        time.sleep(0.05)
-
-        save_variable("inventory", inventory)
-        print("saved inventory")
-        time.sleep(0.05)
+        save_all()
 
         os.rename("saves/save.json", f"saves/{input('Enter the name for your savegame: ')}.json")
         print("saved save")

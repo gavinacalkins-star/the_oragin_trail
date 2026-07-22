@@ -19,7 +19,7 @@ import os
 import msvcrt
 import sys, requests
 import webbrowser
-from colorama import Fore, Back, Style, init
+from colorama import Fore, Style
 
 
 
@@ -129,29 +129,29 @@ def info():
         print(Fore.WHITE + f"stamina: {stamina}")
 
     time.sleep(0.05)
-    if thirst <= 20:
+    if thirst >= 20:
         print(Fore.RED + f"Thirst: {thirst}")
     else:
         print(Fore.WHITE + f"Thirst: {thirst}")
 
     time.sleep(0.05)
-    print("--------------------------------------------------")
+    print(Fore.WHITE + "--------------------------------------------------")
     if wagon_damage > 10:
-        print(Fore.RED + "Wagon damage: {wagon_damage}")
+        print(Fore.RED + f"Wagon damage: {wagon_damage}")
     else:
         print(Fore.WHITE + f"Wagon damage: {wagon_damage}")
     time.sleep(0.05)
-    print(f"wagon name: {wagon_name}")
+    print(Fore.WHITE + f"wagon name: {wagon_name}")
     time.sleep(0.05)
     print(f"pioner name: {pioner_name}")
     time.sleep(0.05)
     print("--------------------------------------------------")
     if money < 200:
-        print(Fore.RED + "money: {money}")
+        print(Fore.RED + f"money: {money}")
     else:
         print(Fore.WHITE + f"money: {money}")
     time.sleep(0.05)
-    print(inventory)
+    print(Fore.WHITE + f"inventory: {inventory}")
     time.sleep(0.05)
     print("--------------------------------------------------")
     print(f"Difficulty: {difficulty}")
@@ -477,7 +477,7 @@ while alive and distance_traveled < distance_needed:
             print(Fore.RED + "You have fallen ill! Your stamina has decreased.")
             stamina -= random.randint(10, 20)
 
-        print(Fore.YELLOW + "After the encounter, you have {food} units of food and {stamina} stamina.")
+        print(Fore.YELLOW + f"After the encounter, you have {food} units of food and {stamina} stamina.")
         input(Fore.WHITE + "Press Enter to continue...")
         time.sleep(1)  # Simulate the passage of time
         print(".")
@@ -669,6 +669,14 @@ while alive and distance_traveled < distance_needed:
         os.replace("saves/save.json", f"saves/{input('Enter the name for your savegame: ')}.json")
         print("saved save")
         raise SystemExit
+
+    elif action == "debug":
+
+        var_name = input("variable to set: ")
+
+        value = input("value: ")
+
+        globals()[var_name] = eval(value)  # eval is risky, see below
 
     else:
         print("Invalid action. Please choose again.")

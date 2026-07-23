@@ -8,7 +8,7 @@
 #  random named landmarks: flavor text/ASCII art at distance_traveled milestones
 #  better hunting minigame: pick weapon/ammo, add a skill-check instead of flat food_gained
 
-version_hear = "1.2.2"
+version_hear = "1.2.3"
 
 import time
 import random

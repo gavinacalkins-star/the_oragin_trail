@@ -1,4 +1,4 @@
-saves/
 build/
+saves/
 main.spec
 !dist/saves/

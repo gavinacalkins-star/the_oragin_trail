@@ -1,4 +1,5 @@
 import ctypes
+import os
 import shutil
 import subprocess
 import sys
@@ -117,6 +118,7 @@ def eject_usb_drive():
 
 def main():
     build()
+    os.rename(DIST / "main.exe", DIST / "the_oregon_trail.exe")
     wait_for_usb_drive()
     sync_to_usb()
     eject_usb_drive()

@@ -9,7 +9,7 @@
 #  random named landmarks: flavor text/ASCII art at distance_traveled milestones
 #  better hunting minigame: pick weapon/ammo, add a skill-check instead of flat food_gained
 
-version_hear = 10
+version_hear = 11
 
 import time
 import random
@@ -63,6 +63,8 @@ stamina_per_hunt_min = None
 food_per_hunt_max = None
 food_per_hunt_min = None
 thirst = 0
+
+os.makedirs("saves", exist_ok=True)
 
 # List existing save files so the player can choose one to resume.
 saves_list = [f for f in os.listdir("saves") if os.path.isfile(os.path.join("saves", f))]

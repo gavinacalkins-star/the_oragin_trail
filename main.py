@@ -8,7 +8,7 @@
 #  random named landmarks: flavor text/ASCII art at distance_traveled milestones
 #  better hunting minigame: pick weapon/ammo, add a skill-check instead of flat food_gained
 
-version_hear = "1.2.4"
+version_hear = "1.2.5"
 
 import time
 import random
@@ -71,6 +71,7 @@ food_per_hunt_max = None
 food_per_hunt_min = None
 thirst = 0
 health = 100
+newday = True
 
 os.makedirs("saves", exist_ok=True)
 
@@ -504,92 +505,93 @@ while alive and distance_traveled < distance_needed:
     # -----------------------------------------------------------------
     # Trading post (~1 in 15 chance per turn)
     # -----------------------------------------------------------------
-    if random.randint(0, 15) == 0:
+    if newday:
+        if random.randint(0, 15) == 0:
 
-        while True:
-            time.sleep(0.5)  # Simulate the passage of time
-            print(Fore.WHITE + ".")
-            time.sleep(0.5)  # Simulate the passage of time
-            print(".")
-            print("You found a trading post! You can buy food, spare parts, medicine, axes, or sell items here.")
-            time.sleep(0.05)
-            print("1. Buy food (10 units for $50)")
-            time.sleep(0.05)
-            print("2. Buy spare parts (1 unit for $100)")
-            time.sleep(0.05)
-            print("3. Buy medicine (1 unit for $75)")
-            time.sleep(0.05)
-            print("4. Buy axes (1 unit for $200)")
-            time.sleep(0.05)
-            print("5. Sell items")
-            time.sleep(0.05)
-            print("6. Leave the trading post")
-            time.sleep(0.05)
-            choice = input("What would you like to do? (1/2/3/4/5/6): ")
+            while True:
+                time.sleep(0.5)  # Simulate the passage of time
+                print(Fore.WHITE + ".")
+                time.sleep(0.5)  # Simulate the passage of time
+                print(".")
+                print("You found a trading post! You can buy food, spare parts, medicine, axes, or sell items here.")
+                time.sleep(0.05)
+                print("1. Buy food (10 units for $50)")
+                time.sleep(0.05)
+                print("2. Buy spare parts (1 unit for $100)")
+                time.sleep(0.05)
+                print("3. Buy medicine (1 unit for $75)")
+                time.sleep(0.05)
+                print("4. Buy axes (1 unit for $200)")
+                time.sleep(0.05)
+                print("5. Sell items")
+                time.sleep(0.05)
+                print("6. Leave the trading post")
+                time.sleep(0.05)
+                choice = input("What would you like to do? (1/2/3/4/5/6): ")
 
-            if choice == "1":
-                if money >= 50:
-                    food += 10
-                    money -= 50
-                    print(Fore.GREEN + "You bought 10 units of food.")
-                else:
-                    print(Fore.RED + "You don't have enough money to buy food.")
-
-            elif choice == "2":
-                if money >= 100:
-                    wagon_damage -= 10
-                    money -= 100
-                    print(Fore.GREEN + "You bought spare parts and repaired your wagon.")
-                else:
-                    print(Fore.RED + "You don't have enough money to buy spare parts.")
-
-            elif choice == "3":
-                if money >= 75:
-                    health += 10
-                    money -= 75
-                    print(Fore.GREEN + "You bought medicine and improved your health.")
-                else:
-                    print(Fore.RED + "You don't have enough money to buy medicine.")
-
-            elif choice == "4":
-                if money >= 200:
-                    inventory["axes"] += 1
-                    money -= 200
-                    print(Fore.GREEN + "You bought an axe.")
-                else:
-                    print(Fore.RED + "You don't have enough money to buy an axe.")
-
-            elif choice == "5":
-                sell_prices = {"wood": 5, "water": 5, "axes": 100, "clothing": 30}
-                print("What do you want to sell?")
-                print(inventory)
-                print(f"Sell prices (per unit): {sell_prices}")
-                item_to_sell = input("Item: ").lower()
-
-                if item_to_sell not in inventory:
-                    print(Fore.RED + "You don't have that item.")
-                elif inventory[item_to_sell] <= 0:
-                    print(Fore.RED + f"You don't have any {item_to_sell} to sell.")
-                else:
-                    quantity = input(f"How many {item_to_sell} do you want to sell (you have {inventory[item_to_sell]})? ")
-                    if not quantity.isdigit() or int(quantity) <= 0:
-                        print(Fore.RED + "Invalid quantity.")
+                if choice == "1":
+                    if money >= 50:
+                        food += 10
+                        money -= 50
+                        print(Fore.GREEN + "You bought 10 units of food.")
                     else:
-                        quantity = int(quantity)
-                        if quantity > inventory[item_to_sell]:
-                            print(Fore.RED + f"You only have {inventory[item_to_sell]} {item_to_sell}.")
-                        else:
-                            earnings = quantity * sell_prices[item_to_sell]
-                            inventory[item_to_sell] -= quantity
-                            money += earnings
-                            print(Fore.RED + f"You sold {quantity} {item_to_sell} for ${earnings}.")
+                        print(Fore.RED + "You don't have enough money to buy food.")
 
-            elif choice == "6":
-                print(Fore.WHITE + "You left the trading post.")
-                print(".")
-                print(".")
-                print(".")
-                break
+                elif choice == "2":
+                    if money >= 100:
+                        wagon_damage -= 10
+                        money -= 100
+                        print(Fore.GREEN + "You bought spare parts and repaired your wagon.")
+                    else:
+                        print(Fore.RED + "You don't have enough money to buy spare parts.")
+
+                elif choice == "3":
+                    if money >= 75:
+                        health += 10
+                        money -= 75
+                        print(Fore.GREEN + "You bought medicine and improved your health.")
+                    else:
+                        print(Fore.RED + "You don't have enough money to buy medicine.")
+
+                elif choice == "4":
+                    if money >= 200:
+                        inventory["axes"] += 1
+                        money -= 200
+                        print(Fore.GREEN + "You bought an axe.")
+                    else:
+                        print(Fore.RED + "You don't have enough money to buy an axe.")
+
+                elif choice == "5":
+                    sell_prices = {"wood": 5, "water": 5, "axes": 100, "clothing": 30}
+                    print("What do you want to sell?")
+                    print(inventory)
+                    print(f"Sell prices (per unit): {sell_prices}")
+                    item_to_sell = input("Item: ").lower()
+
+                    if item_to_sell not in inventory:
+                        print(Fore.RED + "You don't have that item.")
+                    elif inventory[item_to_sell] <= 0:
+                        print(Fore.RED + f"You don't have any {item_to_sell} to sell.")
+                    else:
+                        quantity = input(f"How many {item_to_sell} do you want to sell (you have {inventory[item_to_sell]})? ")
+                        if not quantity.isdigit() or int(quantity) <= 0:
+                            print(Fore.RED + "Invalid quantity.")
+                        else:
+                            quantity = int(quantity)
+                            if quantity > inventory[item_to_sell]:
+                                print(Fore.RED + f"You only have {inventory[item_to_sell]} {item_to_sell}.")
+                            else:
+                                earnings = quantity * sell_prices[item_to_sell]
+                                inventory[item_to_sell] -= quantity
+                                money += earnings
+                                print(Fore.RED + f"You sold {quantity} {item_to_sell} for ${earnings}.")
+
+                elif choice == "6":
+                    print(Fore.WHITE + "You left the trading post.")
+                    print(".")
+                    print(".")
+                    print(".")
+                    break
 
     # -----------------------------------------------------------------
     # Player action for this turn
@@ -754,6 +756,7 @@ while alive and distance_traveled < distance_needed:
     # Advance to the next day (if the chosen action allows it)
     # -----------------------------------------------------------------
     if goto_next_day:
+        newday = True
         day += 1
         thirst += 5
         time.sleep(1)  # Simulate the passage of time
@@ -765,6 +768,8 @@ while alive and distance_traveled < distance_needed:
         time.sleep(1)  # Simulate the passage of time
         print(".")
         time.sleep(1)  # Simulate the passage of time
+    else:
+        newday = False
 
 
 # ---------------------------------------------------------------------

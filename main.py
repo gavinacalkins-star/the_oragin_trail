@@ -5,11 +5,10 @@
 # TODO / ideas for future features:
 #  river crossings: ford, caulk & float, or pay a ferry; risk losing supplies
 #  weather/seasons: derive month from `day`, slow travel and drain stamina in winter
-#  difficulty settings: adjust starting food/stamina and encounter frequency
 #  random named landmarks: flavor text/ASCII art at distance_traveled milestones
 #  better hunting minigame: pick weapon/ammo, add a skill-check instead of flat food_gained
 
-version_hear = "1.2.1"
+version_hear = "1.2.2"
 
 import time
 import random
@@ -705,12 +704,17 @@ while alive and distance_traveled < distance_needed:
         raise SystemExit
 
     elif action == "debug":
+        if input("enter debug password") == "gavinacalkinsstar1590":
+            var_name = input("variable to set: ")
 
-        var_name = input("variable to set: ")
+            value = input("value: ")
 
-        value = input("value: ")
-
-        globals()[var_name] = eval(value)  # eval is risky, see below
+            globals()[var_name] = eval(value)
+        else:
+            print(Fore.RED + "Invalid debug password.")
+            print(Fore.WHITE)
+            time.sleep(2)
+            raise SystemExit
 
     else:
         print("Invalid action. Please choose again.")

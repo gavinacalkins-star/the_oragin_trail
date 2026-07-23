@@ -3,11 +3,11 @@
 # =====================================================================
 #
 # TODO / ideas for future features:
-# - river crossings: ford, caulk & float, or pay a ferry; risk losing supplies
-# - weather/seasons: derive month from `day`, slow travel and drain stamina in winter
-# - difficulty settings: adjust starting food/stamina and encounter frequency
-# - random named landmarks: flavor text/ASCII art at distance_traveled milestones
-# - better hunting minigame: pick weapon/ammo, add a skill-check instead of flat food_gained
+#  river crossings: ford, caulk & float, or pay a ferry; risk losing supplies
+#  weather/seasons: derive month from `day`, slow travel and drain stamina in winter
+#  difficulty settings: adjust starting food/stamina and encounter frequency
+#  random named landmarks: flavor text/ASCII art at distance_traveled milestones
+#  better hunting minigame: pick weapon/ammo, add a skill-check instead of flat food_gained
 
 version_hear = 9
 

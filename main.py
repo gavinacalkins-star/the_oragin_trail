@@ -8,7 +8,7 @@
 #  random named landmarks: flavor text/ASCII art at distance_traveled milestones
 #  better hunting minigame: pick weapon/ammo, add a skill-check instead of flat food_gained
 
-version_hear = "1.2.3"
+version_hear = "1.2.4"
 
 import time
 import random
@@ -30,6 +30,10 @@ try:
     if remote != version_hear:
         print("Out of date — please update.")
         input("Press ENTER to download, if the file is marked as suspicious, click allow download")
+        print(Fore.RED + "once downloaded, extract the zip and run the new version")
+        print("select download dangores file and open the zip archive.")
+        print("once open run the_oregon_trail.exe, select extract all and then extract")
+        print("in the downloaded folder run the_oregon_trail.exe file and if windows says they protected yore pc click more opshons and then run anyway.")
         webbrowser.open_new_tab("https://download-directory.github.io/?url=https%3A%2F%2Fgithub.com%2Fgavinacalkins-star%2Fthe_oragin_trail%2Ftree%2Fmaster%2Fdist")
         sys.exit("Out of date — please update.")
 except requests.RequestException:

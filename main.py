@@ -662,6 +662,7 @@ while alive and distance_traveled < distance_needed:
                 if inventory["axes"] >= 1:
                     inventory["wood"] += 10
                     food -= random.randint(10, 15)
+                    stamina -= random.randint(1, 10)
                     print(Fore.GREEN + "you gathered 10 wood")
                     print(Fore.WHITE)
                 else:
@@ -672,6 +673,7 @@ while alive and distance_traveled < distance_needed:
                 if random.random() > 0.5:
                     inventory["water"] += 10
                     food -= random.randint(10, 15)
+                    stamina -= random.randint(1, 10)
                     print(Fore.GREEN + "you gathered 10 water")
                     print(Fore.WHITE)
 

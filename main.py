@@ -9,7 +9,7 @@
 #  random named landmarks: flavor text/ASCII art at distance_traveled milestones
 #  better hunting minigame: pick weapon/ammo, add a skill-check instead of flat food_gained
 
-version_hear = 9
+version_hear = 10
 
 import time
 import random
@@ -492,7 +492,7 @@ while alive and distance_traveled < distance_needed:
 
         while True:
             time.sleep(0.5)  # Simulate the passage of time
-            print(".")
+            print(Fore.WHITE + ".")
             time.sleep(0.5)  # Simulate the passage of time
             print(".")
             print("You found a trading post! You can buy food, spare parts, medicine, axes, or sell items here.")
@@ -515,33 +515,33 @@ while alive and distance_traveled < distance_needed:
                 if money >= 50:
                     food += 10
                     money -= 50
-                    print("You bought 10 units of food.")
+                    print(Fore.RED + "You bought 10 units of food.")
                 else:
-                    print("You don't have enough money to buy food.")
+                    print(Fore.RED + "You don't have enough money to buy food.")
 
             elif choice == "2":
                 if money >= 100:
                     wagon_damage -= 10
                     money -= 100
-                    print("You bought spare parts and repaired your wagon.")
+                    print(Fore.RED + "You bought spare parts and repaired your wagon.")
                 else:
-                    print("You don't have enough money to buy spare parts.")
+                    print(Fore.RED + "You don't have enough money to buy spare parts.")
 
             elif choice == "3":
                 if money >= 75:
                     stamina += 10
                     money -= 75
-                    print("You bought medicine and improved your stamina.")
+                    print(Fore.RED + "You bought medicine and improved your stamina.")
                 else:
-                    print("You don't have enough money to buy medicine.")
+                    print(Fore.RED + "You don't have enough money to buy medicine.")
 
             elif choice == "4":
                 if money >= 200:
                     inventory["axes"] += 1
                     money -= 200
-                    print("You bought an axe.")
+                    print(Fore.RED + "You bought an axe.")
                 else:
-                    print("You don't have enough money to buy an axe.")
+                    print(Fore.RED + "You don't have enough money to buy an axe.")
 
             elif choice == "5":
                 sell_prices = {"wood": 5, "water": 5, "axes": 100, "clothing": 30}
@@ -551,25 +551,25 @@ while alive and distance_traveled < distance_needed:
                 item_to_sell = input("Item: ").lower()
 
                 if item_to_sell not in inventory:
-                    print("You don't have that item.")
+                    print(Fore.RED + "You don't have that item.")
                 elif inventory[item_to_sell] <= 0:
-                    print(f"You don't have any {item_to_sell} to sell.")
+                    print(Fore.RED + f"You don't have any {item_to_sell} to sell.")
                 else:
                     quantity = input(f"How many {item_to_sell} do you want to sell (you have {inventory[item_to_sell]})? ")
                     if not quantity.isdigit() or int(quantity) <= 0:
-                        print("Invalid quantity.")
+                        print(Fore.RED + "Invalid quantity.")
                     else:
                         quantity = int(quantity)
                         if quantity > inventory[item_to_sell]:
-                            print(f"You only have {inventory[item_to_sell]} {item_to_sell}.")
+                            print(Fore.RED + f"You only have {inventory[item_to_sell]} {item_to_sell}.")
                         else:
                             earnings = quantity * sell_prices[item_to_sell]
                             inventory[item_to_sell] -= quantity
                             money += earnings
-                            print(f"You sold {quantity} {item_to_sell} for ${earnings}.")
+                            print(Fore.RED + f"You sold {quantity} {item_to_sell} for ${earnings}.")
 
             elif choice == "6":
-                print("You left the trading post.")
+                print(Fore.WHITE + "You left the trading post.")
                 print(".")
                 print(".")
                 print(".")

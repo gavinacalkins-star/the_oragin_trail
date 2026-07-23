@@ -8,7 +8,7 @@
 #  random named landmarks: flavor text/ASCII art at distance_traveled milestones
 #  better hunting minigame: pick weapon/ammo, add a skill-check instead of flat food_gained
 
-version_hear = "1.2.5"
+version_hear = "1.2.6"
 
 import time
 import random
@@ -34,7 +34,7 @@ try:
         print("select download dangores file and open the zip archive.")
         print("once open run the_oregon_trail.exe, select extract all and then extract")
         print("in the downloaded folder run the_oregon_trail.exe file and if windows says they protected yore pc click more opshons and then run anyway.")
-        webbrowser.open_new_tab("https://download-directory.github.io/?url=https%3A%2F%2Fgithub.com%2Fgavinacalkins-star%2Fthe_oragin_trail%2Ftree%2Fmaster%2Fdist")
+        webbrowser.open_new_tab("https://gitfolderdownloader.github.io/?=https://github.com/gavinacalkins-star/the_oragin_trail/tree/master/dist")
         sys.exit("Out of date — please update.")
 except requests.RequestException:
     pass
@@ -751,6 +751,14 @@ while alive and distance_traveled < distance_needed:
         stamina = 100
     if food >= 100:
         food = 100
+    if stamina <= 0:
+        stamina = 0
+    if wagon_damage <= 0:
+        wagon_damage = 0
+    if health <= 0:
+        health = 0
+    if thirst <= 0:
+        thirst = 0
 
     # -----------------------------------------------------------------
     # Advance to the next day (if the chosen action allows it)

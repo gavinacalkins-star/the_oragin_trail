@@ -8,7 +8,7 @@
 #  random named landmarks: flavor text/ASCII art at distance_traveled milestones
 #  better hunting minigame: pick weapon/ammo, add a skill-check instead of flat food_gained
 
-version_hear = "1.2.6"
+version_hear = "1.2.7"
 
 import time
 import random
@@ -291,6 +291,117 @@ def load_all():
     stamina_per_hunt_min = get_saved_value("stamina_per_hunt_min")
     stamina_per_hunt_max = get_saved_value("stamina_per_hunt_max")
 
+def show_help():
+    """Display a comprehensive tutorial and FAQ about game commands."""
+    print(Fore.YELLOW + "\n" + "="*60)
+    print("OREGON TRAIL - COMMAND TUTORIAL & FAQ")
+    print("="*60 + Fore.WHITE)
+
+    print("\n" + Fore.CYAN + "AVAILABLE COMMANDS:")
+    print("-" * 60 + Fore.WHITE)
+
+    print(Fore.YELLOW + "\n1. TRAVEL" + Fore.WHITE)
+    print("   Moves your wagon forward on the trail.")
+    print("   Costs: 5-15 food, 1-10 stamina")
+    print("   Gain: " + str(travel_min) + "-" + str(travel_max) + " miles (reduced by wagon damage)")
+    print("   Effect: Increases wagon damage by 1-5")
+    print("   Requirement: Stamina must be >= 30, wagon damage < 50")
+
+    print(Fore.YELLOW + "\n2. REST" + Fore.WHITE)
+    print("   Rest to recover stamina.")
+    print("   Costs: 5-10 food")
+    print("   Gain: 5-15 stamina")
+    print("   Advances to next day")
+
+    print(Fore.YELLOW + "\n3. HUNT" + Fore.WHITE)
+    print("   Hunt for food (requires timing minigame).")
+    print("   Requirement: Stamina must be > 20")
+    print("   On HIT:")
+    print("      Gain: " + str(food_per_hunt_min) + "-" + str(food_per_hunt_max) + " food")
+    print("      Cost: " + str(stamina_per_hunt_min) + "-" + str(stamina_per_hunt_max) + " stamina")
+    print("   On MISS:")
+    print("      Cost: 5-10 food, 1-10 stamina")
+
+    print(Fore.YELLOW + "\n4. REPAIR" + Fore.WHITE)
+    print("   Repair your wagon.")
+    print("   Costs: 5-15 food, 1-10 stamina")
+    print("   Repair: " + str(repair_min) + "-" + str(repair_max) + " damage reduced")
+    print("   Requirement: Stamina > 50, wagon damage < 15")
+    print("   Note: For heavy damage, buy spare parts at trading post")
+
+    print(Fore.YELLOW + "\n5. GATHER" + Fore.WHITE)
+    print("   Collect wood or water for later use.")
+    print("   Requirement: Stamina > 20")
+    print("   WOOD:")
+    print("      Requirement: Must have 1 axe")
+    print("      Gain: 10 wood")
+    print("      Cost: 10-15 food, 1-10 stamina")
+    print("   WATER:")
+    print("      Gain: 10 water (50% chance of finding water)")
+    print("      Cost: 10-15 food, 1-10 stamina")
+
+    print(Fore.YELLOW + "\n6. DRINK" + Fore.WHITE)
+    print("   Drink water to reduce thirst.")
+    print("   Costs: 1 water")
+    print("   Effect: Reduces thirst by 20")
+    print("   Note: Thirst increases by 5 each day")
+
+    print(Fore.YELLOW + "\n7. STATUS" + Fore.WHITE)
+    print("   View detailed game information.")
+    print("   Shows: Day, distance, food, stamina, health, thirst,")
+    print("          wagon damage, money, inventory, and difficulty settings")
+
+    print(Fore.YELLOW + "\n8. EXIT" + Fore.WHITE)
+    print("   Save game and exit to menu.")
+    print("   Saves all progress to a file of your choosing.")
+
+    print("\n" + Fore.CYAN + "FREQUENTLY ASKED QUESTIONS:")
+    print("-" * 60 + Fore.WHITE)
+
+    print(Fore.YELLOW + "\nQ: How much health does medicine restore?" + Fore.WHITE)
+    print("A: Medicine costs $75 and restores 10 health points.")
+
+    print(Fore.YELLOW + "\nQ: What is the trading post and when does it appear?" + Fore.WHITE)
+    print("A: Trading post appears randomly (~1 in 15 chance per day). You can:")
+    print("   • Buy food (10 units for $50)")
+    print("   • Buy spare parts (1 for $100, reduces wagon damage by 10)")
+    print("   • Buy medicine (1 for $75, restores 10 health)")
+    print("   • Buy axes (1 for $200, needed to gather wood)")
+    print("   • Sell items from your inventory")
+
+    print(Fore.YELLOW + "\nQ: What causes random encounters?" + Fore.WHITE)
+    print("A: About 1 in 11 turns you may encounter:")
+    print("   • BANDITS: Steal 10-20 food (or 1-20 health if low on food)")
+    print("            Damage wagon by 10-20")
+    print("   • STORM: Lose 5-15 food, 5-15 stamina, 5-15 wagon damage")
+    print("   • SICKNESS: Lose 10-20 health")
+
+    print(Fore.YELLOW + "\nQ: When do I die?" + Fore.WHITE)
+    print("A: You die if any of these reach 0 or below:")
+    print("   • Food <= 0 (starvation)")
+    print("   • Health <= 0 (illness/injury)")
+    print("   • Thirst > 100 (dehydration)")
+
+    print(Fore.YELLOW + "\nQ: What is the goal?" + Fore.WHITE)
+    print("A: Travel " + str(distance_needed) + " miles to reach Oregon.")
+
+    print(Fore.YELLOW + "\nQ: How do difficulty levels work?" + Fore.WHITE)
+    print("A: Difficulty affects:")
+    print("   Level 1 (Easy):   " + str(travel_min) + "-" + str(travel_max) + " miles/day, more food from hunting")
+    print("   Level 2 (Normal): " + str(travel_min) + "-" + str(travel_max) + " miles/day, balanced")
+    print("   Level 3 (Hard):   " + str(travel_min) + "-" + str(travel_max) + " miles/day, less food from hunting")
+
+    print(Fore.YELLOW + "\nQ: What stats should I watch?" + Fore.WHITE)
+    print("A: Keep an eye on:")
+    print("   • Food: Essential for survival (turns red if <= 20)")
+    print("   • Stamina: Needed to do activities (turns red if <= 20)")
+    print("   • Health: Die if it reaches 0 (turns red if <= 20)")
+    print("   • Thirst: Increases 5 per day, die if > 100 (turns red if >= 20)")
+    print("   • Wagon Damage: Slows travel, turns red if > 10")
+
+    print("\n" + Fore.CYAN + "="*60 + Fore.WHITE)
+    input("Press ENTER to continue...")
+
 
 # ---------------------------------------------------------------------
 # Intro screen
@@ -453,7 +564,13 @@ else:
         f"You have {food} units of food and {stamina} stamina. Your goal is to travel "
         f"{distance_needed} miles to reach your destination. Good luck!"
     )
-    print(Fore.WHITE)
+    print(Fore.WHITE + "--------------------------------------------------")
+
+
+
+
+
+show_help()
 
 
 # =====================================================================
@@ -596,7 +713,7 @@ while alive and distance_traveled < distance_needed:
     # -----------------------------------------------------------------
     # Player action for this turn
     # -----------------------------------------------------------------
-    action = input("What would you like to do? (travel/rest/hunt/status/repair/gather/drink/exit): ").lower()
+    action = input("What would you like to do? (travel/rest/hunt/status/repair/gather/drink/help/exit): ").lower()
 
     if action == "travel":
         if stamina < 30:
@@ -659,6 +776,10 @@ while alive and distance_traveled < distance_needed:
                 goto_next_day = False
     elif action == "status":
         info()
+        goto_next_day = False
+
+    elif action == "help":
+        show_help()
         goto_next_day = False
 
     elif action == "gather":
@@ -778,6 +899,8 @@ while alive and distance_traveled < distance_needed:
         time.sleep(1)  # Simulate the passage of time
     else:
         newday = False
+
+
 
 
 # ---------------------------------------------------------------------

@@ -431,11 +431,12 @@ else:
         stamina_per_hunt_min = 5
         stamina_per_hunt_max = 15
 
-    print(Fore.WHITE +
+    print(Fore.RED +
         f"Welcome {pioner_name} to the Oregon Trail! Your wagon is named {wagon_name}. "
         f"You have {food} units of food and {stamina} stamina. Your goal is to travel "
         f"{distance_needed} miles to reach your destination. Good luck!"
     )
+    print(Fore.WHITE)
 
 
 # =====================================================================

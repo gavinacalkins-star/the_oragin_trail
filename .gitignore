@@ -1,3 +1,4 @@
 saves/
 build/
 main.spec
+!dist/

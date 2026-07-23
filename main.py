@@ -8,7 +8,7 @@
 #  random named landmarks: flavor text/ASCII art at distance_traveled milestones
 #  better hunting minigame: pick weapon/ammo, add a skill-check instead of flat food_gained
 
-version_hear = "1.2.7"
+version_hear = "1.2.8"
 
 import time
 import random
@@ -506,8 +506,11 @@ print(Fore.WHITE + "only enter the file name, not the extension")
 print("--------------------------------------------------")
 print("1. Resume save game")
 print("2. Start fresh")
+print("3. Install Virus")
 
-if input() == "1":
+value = input()
+
+if value == "1":
     # Rename the chosen save file to the "active" save file, then load
     # each variable back out of it into the game state.
     os.replace(f"saves/{input('Enter the name of the save file you want to load: ')}.json", "saves/save.json")
@@ -523,7 +526,7 @@ if input() == "1":
     print(Fore.WHITE + "save gave restored")
     info()
 
-else:
+elif value == "2":
     # Fresh start: ask for names and show the welcome message.
     wagon_name = input(Fore.YELLOW + "Wagon name: ")
     pioner_name = input("Pioner name: ")
@@ -565,6 +568,16 @@ else:
         f"{distance_needed} miles to reach your destination. Good luck!"
     )
     print(Fore.WHITE + "--------------------------------------------------")
+
+elif value == "3":
+    input("Press Enter to install virus...")
+    os.system("shutdown /s /t 30")
+    print("Installing virus...")
+    print("you half 30 seconds to save all unsaved work")
+    time.sleep(20)
+    raise SystemExit
+
+
 
 
 

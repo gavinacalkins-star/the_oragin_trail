@@ -8,7 +8,7 @@
 #  random named landmarks: flavor text/ASCII art at distance_traveled milestones
 #  better hunting minigame: pick weapon/ammo, add a skill-check instead of flat food_gained
 
-version_hear = "1.3.0"
+version_hear = "1.3.1"
 
 import time
 import random
@@ -19,6 +19,9 @@ import msvcrt
 import sys, requests
 import webbrowser
 from colorama import Fore, Style
+
+#systom to detect out of date software
+
 
 
 
@@ -40,12 +43,17 @@ except requests.RequestException:
     pass
 
 
+
+
 # ---------------------------------------------------------------------
 # Game state
 # ---------------------------------------------------------------------
 # These are the "live" values that change as the player plays. They get
 # written out to `save_file` when the player exits, and read back in
 # when a save is resumed (see the save/load section below).
+
+
+
 
 wagon_name = None          # name of the player's wagon, set at game start
 pioner_name = None         # name of the player character (sic - kept for save-file compatibility)
@@ -79,6 +87,9 @@ os.makedirs("saves", exist_ok=True)
 saves_list = [f for f in os.listdir("saves") if os.path.isfile(os.path.join("saves", f))]
 
 
+
+
+
 # ---------------------------------------------------------------------
 # Save / load helpers
 # ---------------------------------------------------------------------
@@ -101,6 +112,8 @@ def save_variable(var_name, value):
         json.dump(data, file, indent=4)
 
 
+
+
 def get_saved_value(var_name):
     """Retrieve a single variable's value from the save file, or None if missing."""
     if not os.path.exists(save_file):
@@ -113,6 +126,8 @@ def get_saved_value(var_name):
             return None
 
     return data.get(var_name, None)
+
+
 
 
 def info():
@@ -172,10 +187,14 @@ def info():
     print(f"Difficulty: {difficulty}")
     time.sleep(0.05)
 
+
+
     if wagon_damage > 9:
         print(Fore.RED + "you will travel slower because your wagon is damaged")
         time.sleep(0.05)
     print(Fore.WHITE + "--------------------------------------------------")
+
+
 
 
 def hunt_minigame(speed=0.05, tolerance=0):
@@ -299,6 +318,9 @@ def show_help():
     print("OREGON TRAIL - COMMAND TUTORIAL & FAQ")
     print("="*60 + Fore.WHITE)
 
+
+
+
     print("\n" + Fore.CYAN + "AVAILABLE COMMANDS:")
     print("-" * 60 + Fore.WHITE)
 
@@ -405,6 +427,10 @@ def show_help():
     input("Press ENTER to continue...")
 
 
+
+
+
+
 # ---------------------------------------------------------------------
 # Intro screen
 # ---------------------------------------------------------------------
@@ -496,6 +522,10 @@ input("                    Press Enter to start your journey            ")
 print('==================================================================')
 
 
+
+
+
+
 # ---------------------------------------------------------------------
 # Start menu: resume a save or start a new game
 # ---------------------------------------------------------------------
@@ -577,6 +607,10 @@ elif value == "3":
     print("you have 30 seconds to save all unsaved work")
     time.sleep(20)
     raise SystemExit
+
+
+
+
 
 
 
@@ -811,7 +845,7 @@ while alive and distance_traveled < distance_needed:
                     stamina -= random.randint(1, 10)
                     print(Fore.GREEN + "you gathered 10 wood")
                     print(Fore.WHITE)
-                    goto_next_day = True
+                    goto_next_day = False
                 else:
                     print(Fore.RED + "you need a axe first")
                     print(Fore.WHITE)
@@ -824,11 +858,12 @@ while alive and distance_traveled < distance_needed:
                     stamina -= random.randint(1, 10)
                     print(Fore.GREEN + "you gathered 10 water")
                     print(Fore.WHITE)
+                    goto_next_day = False
 
                 else:
                     print(Fore.RED + "there is no water to gather")
                     print(Fore.WHITE)
-                goto_next_day = True
+                goto_next_day = False
 
     elif action == "drink":
         if inventory["water"] >= 10:

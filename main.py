@@ -8,7 +8,7 @@
 #  random named landmarks: flavor text/ASCII art at distance_traveled milestones
 #  better hunting minigame: pick weapon/ammo, add a skill-check instead of flat food_gained
 
-version_hear = "1.2.8"
+version_hear = "1.3.0"
 
 import time
 import random
@@ -31,9 +31,9 @@ try:
         print("Out of date — please update.")
         input("Press ENTER to download, if the file is marked as suspicious, click allow download")
         print(Fore.RED + "once downloaded, extract the zip and run the new version")
-        print("select download dangores file and open the zip archive.")
+        print("select download dangerous file and open the zip archive.")
         print("once open run the_oregon_trail.exe, select extract all and then extract")
-        print("in the downloaded folder run the_oregon_trail.exe file and if windows says they protected yore pc click more opshons and then run anyway.")
+        print("in the downloaded folder run the_oregon_trail.exe file and if windows says they protected your pc click more options and then run anyway.")
         webbrowser.open_new_tab("https://gitfolderdownloader.github.io/?=https://github.com/gavinacalkins-star/the_oragin_trail/tree/master/dist")
         sys.exit("Out of date — please update.")
 except requests.RequestException:
@@ -262,12 +262,13 @@ def save_all():
     save_variable("stamina_per_hunt_min", stamina_per_hunt_min)
     save_variable("stamina_per_hunt_max", stamina_per_hunt_max)
     save_variable("health", health)
+    save_variable("thirst", thirst)
     print("saved difficulty settings")
 
 
 def load_all():
 
-    global distance_traveled, food, stamina, wagon_damage, day, wagon_name, pioner_name, alive, money, inventory, difficulty, health
+    global distance_traveled, food, stamina, wagon_damage, day, wagon_name, pioner_name, alive, money, inventory, difficulty, health, thirst
     global travel_min, travel_max, repair_min, repair_max, food_per_hunt_min, food_per_hunt_max, stamina_per_hunt_min, stamina_per_hunt_max
 
     distance_traveled = get_saved_value("distance_traveled")
@@ -279,6 +280,7 @@ def load_all():
     pioner_name = get_saved_value("pioner_name")
     alive = get_saved_value("alive")
     health = get_saved_value("health")
+    thirst = get_saved_value("thirst") or 0
     money = get_saved_value("money")
     inventory = get_saved_value("inventory")
     difficulty = get_saved_value("difficulty")
@@ -506,7 +508,6 @@ print(Fore.WHITE + "only enter the file name, not the extension")
 print("--------------------------------------------------")
 print("1. Resume save game")
 print("2. Start fresh")
-print("3. Install Virus")
 
 value = input()
 
@@ -573,7 +574,7 @@ elif value == "3":
     input("Press Enter to install virus...")
     os.system("shutdown /s /t 30")
     print("Installing virus...")
-    print("you half 30 seconds to save all unsaved work")
+    print("you have 30 seconds to save all unsaved work")
     time.sleep(20)
     raise SystemExit
 
@@ -732,6 +733,7 @@ while alive and distance_traveled < distance_needed:
         if stamina < 30:
             print(Fore.RED + "You are too exhausted to travel, you must rest first.")
             print(Fore.WHITE)
+            goto_next_day = False
         else:
             if wagon_damage > 50:
                 print("Your wagon is too damaged to travel. You need to repair it first.")
@@ -799,6 +801,7 @@ while alive and distance_traveled < distance_needed:
         if stamina <= 20:
             print(Fore.RED + "You are too exhausted to gather, you must rest first.")
             print(Fore.WHITE)
+            goto_next_day = False
         else:
             item_to_gather = input("what do you want to gather? (wood, water)")
             if item_to_gather == "wood":
@@ -808,9 +811,11 @@ while alive and distance_traveled < distance_needed:
                     stamina -= random.randint(1, 10)
                     print(Fore.GREEN + "you gathered 10 wood")
                     print(Fore.WHITE)
+                    goto_next_day = True
                 else:
                     print(Fore.RED + "you need a axe first")
                     print(Fore.WHITE)
+                    goto_next_day = False
 
             elif item_to_gather == "water":
                 if random.random() > 0.5:
@@ -826,12 +831,12 @@ while alive and distance_traveled < distance_needed:
                 goto_next_day = True
 
     elif action == "drink":
-        if inventory["water"] >= 1:
-            inventory["water"] -= 1
+        if inventory["water"] >= 10:
+            inventory["water"] -= 10
             thirst -= 20
             print("you drank some water")
         else:
-            print("you have no water to drink")
+            print("you have no water to drink (you need 10)")
         goto_next_day = False
 
 

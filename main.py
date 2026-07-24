@@ -172,7 +172,7 @@ def info():
     print(f"Difficulty: {difficulty}")
     time.sleep(0.05)
 
-    if wagon_damage > 0:
+    if wagon_damage > 9:
         print(Fore.RED + "you will travel slower because your wagon is damaged")
         time.sleep(0.05)
     print(Fore.WHITE + "--------------------------------------------------")

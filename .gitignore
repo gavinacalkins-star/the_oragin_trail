@@ -2,3 +2,4 @@ build/
 saves/
 main.spec
 !dist/saves/
+.venv/

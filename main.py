@@ -8,7 +8,7 @@
 #  random named landmarks: flavor text/ASCII art at distance_traveled milestones
 #  better hunting minigame: pick weapon/ammo, add a skill-check instead of flat food_gained
 
-version_hear = "1.3.1"
+version_hear = "1.3.2"
 
 import time
 import random
@@ -947,7 +947,19 @@ while alive and distance_traveled < distance_needed:
         newday = False
 
 
-
+if distance_traveled >= distance_needed:
+    print(Fore.GREEN + "Congratulations! You have reached Oregon and completed your journey!")
+    print(Fore.WHITE)
+    for I in range(10):
+        for I in range(50):
+            if random.random() > 0.5:
+                print(" ", end="")
+                time.sleep(0.01)
+            else:
+                print("🎉", end="")
+                time.sleep(0.01)
+        print("")
+        time.sleep(0.01)
 
 # ---------------------------------------------------------------------
 # Game over

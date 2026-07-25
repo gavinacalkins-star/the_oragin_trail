@@ -68,15 +68,15 @@ save_file = "saves/save.json"
 goto_next_day = True        # whether the current action should advance the day
 money = 1000                 # money (sic - kept for save-file compatibility)
 inventory = {"wood": 0, "water": 0, "axes": 0, "clothing": 0}
-difficulty = None
-travel_max = None
-travel_min = None
-repair_max = None
-repair_min = None
-stamina_per_hunt_max = None
-stamina_per_hunt_min = None
-food_per_hunt_max = None
-food_per_hunt_min = None
+difficulty = 0
+travel_max = 0
+travel_min = 0
+repair_max = 0
+repair_min = 0
+stamina_per_hunt_max = 0
+stamina_per_hunt_min = 0
+food_per_hunt_max = 0
+food_per_hunt_min = 0
 thirst = 0
 health = 100
 newday = True
@@ -600,13 +600,6 @@ elif value == "2":
     )
     print(Fore.WHITE + "--------------------------------------------------")
 
-elif value == "3":
-    input("Press Enter to install virus...")
-    os.system("shutdown /s /t 30")
-    print("Installing virus...")
-    print("you have 30 seconds to save all unsaved work")
-    time.sleep(20)
-    raise SystemExit
 
 
 

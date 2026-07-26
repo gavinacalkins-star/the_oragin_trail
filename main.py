@@ -8,7 +8,7 @@
 #  random named landmarks: flavor text/ASCII art at distance_traveled milestones
 #  better hunting minigame: pick weapon/ammo, add a skill-check instead of flat food_gained
 
-version_hear = "1.3.2"
+version_hear = "1.3.3"
 
 import time
 import random
@@ -20,7 +20,7 @@ import sys, requests
 import webbrowser
 from colorama import Fore, Style
 
-#systom to detect out of date software
+#system to detect out of date software
 
 
 
@@ -560,7 +560,7 @@ if value == "1":
 elif value == "2":
     # Fresh start: ask for names and show the welcome message.
     wagon_name = input(Fore.YELLOW + "Wagon name: ")
-    pioner_name = input("Pioner name: ")
+    pioner_name = input("Pioneer name: ")
     difficulty = input("Difficulty, 1,2,3: ")
 
     if difficulty == "1":
